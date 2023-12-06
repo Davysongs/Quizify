@@ -24,7 +24,7 @@ Flexible Deployment: Deploy your quiz app on your preferred hosting platform wit
 - JavaScript
 
 **Getting Started:**
-1. Clone the repository: `git clone https://github.com/your-username/quizify.git`
+1. Clone the repository: `git clone https://github.com/Davysongs/quizify.git`
 2. Install dependencies: `pip install -r requirements.txt`
 3. Configure the database: `python manage.py migrate`
 4. Run the development server: `python manage.py runserver`
