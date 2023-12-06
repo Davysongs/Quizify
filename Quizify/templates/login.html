@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Josh-Quiz-App || Login Page</title>
+    <link rel="shortcut icon" href="./img/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="./CSS/style3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
+    <link rel="stylesheet" href="./CSS/all.min.css">
+</head>
+<body>
+
+    <!-- TOP CONTAINER -->
+
+    <div class="top-container">
+        <div class="container">
+            <img src="./img/bak.png" alt="logo" class="quiz-img">
+            <h1 class="quiz-heading">Josh Quiz App</h1>
+            <p>This quiz was brought to you by Dee Josh.</p>
+        </div>
+        <div class="back-to-home">
+            <p class="home"> <a href="./index.html" class="top"><i class="fa-solid fa-circle-chevron-up"></i></a></p>
+        </div>
+    </div>
+
+    <!-- YOUR DETAILS CONTAINER -->
+
+    <div class="bottom-container">
+        <div class="container">
+            <form class="login">
+                <div class="user-details">
+                    <div class="main-input">
+                        <input type="text" placeholder="Username" class="input" name="username"><br>
+                        <input type="password" name="password" placeholder="Password" class="input"><br>
+                        <!-- <input type="" name="password" placeholder="Choose Category" class="input"> -->
+
+                        <select name="categories" id="categories">
+                            <option value="categories" selected hidden>Categories</option>
+                            <option value="General Studies">General Studies</option>
+                            <option value="History">History</option>
+                            <option value="Current Affairs">Current Affairs</option>
+                            <option value="Mathematics">Mathematics</option>
+
+                        </select>
+                    </div>
+                  
+                    
+                    <div class="gender">
+                        <input type="radio" name="Male" id="Male">
+                        <label for="Male">Male</label>
+    
+                        <input type="radio" name="Female" id="Female">
+                        <label for="Female">Female</label>
+                    </div>
+                    <br>
+    
+            
+                    <div class="check-box">
+                        <input type="checkbox" name="read" id="read">
+                        <label for="read">I have read your <a href="">instructions</a></label>
+                    </div>            
+                </div>
+                <br>
+                <div class="start-button-container">
+                    <button type="submit" class="start-button">Start</button>
+                </div>
+            </form>
+           
+            <br>
+                <div class="not-registered">
+                    <p>Not yet registered? <a href="./sign-up.html">Sign up</a></p>
+                </div>
+        </div>
+        
+    </div>
+
+   <script src="./Scripts/script3.js"></script>
+</body>
+</html>

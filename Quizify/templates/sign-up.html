@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Josh-Quiz-App || Register Page</title>
+    <link rel="shortcut icon" href="./img/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="./CSS/style4.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
+    <link rel="stylesheet" href="./CSS/all.min.css">
+  </head>
+  <body>
+    <!-- <header></header> -->
+    <!-- <main>
+      <section>
+
+      </section>
+    </main> -->
+    <!-- <footer>
+
+    </footer> -->
+    <!-- action="/api/v1/users" method="post" -->
+    <div class="back-to-home">
+        <p class="home"> <a href="./index.html" class="top"><i class="fa-solid fa-circle-chevron-up"></i></a></p>
+    </div>
+
+
+    <form class="form" method="post">
+      <h1 class="form__heading">Dee-Quiz</h1>
+      <p class="register">Register Here</p>
+      <div class="form__group">
+        <label for="name">Name</label>
+        <input type="text" name="name" id="name" class="form__group-input" pattern="[a-zA-Z0-9]{2,}" 
+        title="Must enter valid name" 
+         />
+        <div class="form__group-small"></div>
+      </div>
+      <div class="form__group">
+        <label for="name">Username</label>
+        <input type="text" name="username" id="username" class="form__group-input" pattern="[a-zA-Z0-9]{2,}" 
+        title="Enter any username" 
+         />
+        <div class="form__group-small"></div>
+      </div>
+      <div class="form__group">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          name="password"
+          id="password"
+          class="form__group-input"
+          title="Password must contain a minimum of 8 characters and must include uppercase"
+        />
+        <div class="form__group-small"></div>
+      </div>
+      <div class="form__group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          name="email"
+          id="email"
+          class="form__group-input"
+          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+          title="Enter a valid email"
+        />
+        <div class="form__group-small"></div>
+      </div>
+      <div class="form__group-radio">
+        <label for="accept">Accept Terms and Conditions</label>
+        <input
+          type="checkbox"
+          name="accept"
+          id="accept"
+          class="form__group-radio"
+          value="accept"
+        />
+      </div>
+      <div class="form__group">
+        <input type="submit" required class="submit-btn form__group-input" />
+        <p>Have you registered? <a href="./login.html">Login Here</a></p>
+      </div>
+    </form>
+    <script src="./Scripts/script4.js"></script>
+  </body>
+</html>
+
+
+
+<!-- required - inside input tag makes it compulsory that the user inputs something -->
