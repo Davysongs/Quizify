@@ -83,7 +83,7 @@ DATABASES = {
         'USER': 'root',
         'PASSWORD': '#$(tVA0nr)',
         'HOST': '127.0.0.1',
-        'PORT': '3360',
+        'PORT': '3306',
     }
 }
 

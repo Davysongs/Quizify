@@ -10,6 +10,7 @@ django-crispy-forms = "*"
 requests = "*"
 pytest = "*"
 django-debug-toolbar = "*"
+mysqlclient = "*"
 
 [dev-packages]
 
