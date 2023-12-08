@@ -34,6 +34,6 @@ def login (request):
                 return render(request, "home.html")
             else:
                 return render(request, "login.html", {'error': 'Invalid password.'})
-            else:
-return render(request, "login.html", {'error': 'User not found.'})
+        else:
+            return render(request, "login.html", {'error': 'User not found.'})
         
