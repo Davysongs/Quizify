@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,18 +9,17 @@
     <meta name="keywords" content="Entertaining Quiz | Educating Quiz | Fun Games">
     <meta http-equiv="author" content="Joshua Dada"> -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./CSS/style.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
-    <link rel="stylesheet" href="./CSS/all.min.css">
-    <link rel="stylesheet" href="./CSS/style.css">
-    <link rel="icon" href="./img/logo.png">
+    <link rel="stylesheet" href="{% static 'css/all.min.css' %}">
+    <link rel="icon" href="{% static 'img/logo.png' %}">
 </head>
 <body>
     <div class="left-container">
         <div class="top-left-container">
             <header>
                 <div class="header-left">
-                    <h1>Dee-Quiz</h1>
+                    <h1>Quizify</h1>
                     <p>Easy and inituitive online quiz.</p> 
                 </div>
 
@@ -32,7 +32,7 @@
                 <h3>Exercise The Unbeatable</h3>
                 <h1>POWER <br> OF YOUR <br> MIND.</h1>
 
-                <a href="./sign-up.html" class="btn-link"><button class="start-btn">GET STARTED ⇒</button></a>
+                <a href="{% url 'register' %}" class="btn-link"><button class="start-btn">GET STARTED ⇒</button></a>
             </div>
         </div>
         <div class="bottom-left-container">
@@ -65,8 +65,8 @@
                 <li class="nav-link about mobile"></a> About</li>
                 <li class="nav-link program mobile"></a> Categories</li>
                 <li class="nav-link contact-us mobile"></a> Contact Us</li>
-                <li><a href="./login.html"><button class="nav-btn">Login</button></a></li>
-                <li><a href="./sign-up.html"><button class="nav-btn">Sign Up</button></a></li>
+                <li><a href="{% url 'login' %}"><button class="nav-btn">Login</button></a></li>
+                <li><a href="{% url 'register' %}"><button class="nav-btn">Sign Up</button></a></li>
             </ul>
         </main>
 
@@ -78,22 +78,22 @@
 
     <!-- RIGHT CONTAINER -->
 
-    <div class="right-container">
+    <div class="right-container" class="top-left-container" style = "background-image: linear-gradient(rgba(128, 128, 252, 0.519), rgba(128, 128, 252, 0.522)), url('{% static 'img/rubiks-cube-gif.gif' %}'); background-repeat:no-repeat;">
         <nav>
             <ul>
                 <li class="nav-link about"></a> About</li>
                 <li class="nav-link program"></a> Categories</li>
                 <li class="nav-link contact-us"></a> Contact Us</li>
-                <li><a href="./login.html"><button class="nav-btn">Login</button></a></li>
-                <li><a href="./sign-up.html"><button class="nav-btn">Sign Up</button></a></li>
+                <li><a href="{% url 'login' %}"><button class="nav-btn">Login</button></a></li>
+                <li><a href="{% url 'register' %}"><button class="nav-btn">Sign Up</button></a></li>
             </ul>
         </nav>
 
         <div class="right-container-content">
             <div class="center">
-                <a href="./sign-up.html"><button>GET STARTED ⇒</button></a>
+                <a href="{% url 'register' %}"><button>GET STARTED ⇒</button></a>
             </div>
-            <marquee behavior="" direction="">Josh-Quiz-App was brought to you by Dee Josh... Set a special time to relax and sharpen your thinking at the same time...</marquee>
+            {% comment %} <marquee behavior="" direction="">Quizp was brought to you by Dee Josh... Set a special time to relax and sharpen your thinking at the same time...</marquee> {% endcomment %}
         </div>
         <!-- Extra Text -->
     <div class="extra-text">
@@ -135,7 +135,7 @@
     
     
     
-    <script src="./Scripts/script.js"></script>
+    <script src="{% static 'Scripts/script.js' %}"></script>
 </body>
 </html>
 
