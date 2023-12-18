@@ -20,24 +20,14 @@
     <div class="back-to-home">
         <p class="home"> <a href="{% url 'main' %}" class="top"><i class="fa-solid fa-circle-chevron-up"></i></a></p>
     </div>
+    
 
-
-    <form class="form" method="post" action= "{% url 'register' %}">
+    <form class="form" method="post" action= "{% url 'login' %}">
       <h1 class="form__heading">Quizify</h1>
       <p class="register">Register Here</p>
       {% csrf_token %}
       {{ form.as_p}} 
       
-      <div class="form__group-radio">
-        <label for="accept">Accept Terms and Conditions</label>
-        <input
-          type="checkbox"
-          name="accept"
-          id="accept"
-          class="form__group-radio"
-          value="accept"
-        />
-      </div>
       <div class="form__group">
         <input type="submit" required class="submit-btn form__group-input" />
         <p>Have you registered? <a href="{% url 'login' %}">Login Here</a></p>
