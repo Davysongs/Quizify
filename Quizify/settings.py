@@ -41,8 +41,10 @@ INSTALLED_APPS = [
     'rest_framework',
     'crispy_forms',
     'debug_toolbar',
+    'formtools',
     
 ]
+CRISPY_PACK_TEMPLATE = "bootstrap4"
 
 MIDDLEWARE = [
     'debug_toolbar.middleware.DebugToolbarMiddleware',

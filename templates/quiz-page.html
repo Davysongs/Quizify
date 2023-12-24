@@ -1,14 +1,15 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Josh-Quiz</title>
-    <link rel="shortcut icon" href="./img/logo.png" type="image/x-icon">
+    <title>Quizify</title>
+    <link rel="shortcut icon" href="{% static 'img/logo.png' %}" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
-    <link rel="stylesheet" href="./CSS/all.min.css">
-    <link rel="stylesheet" href="./CSS/style2.css">
+    <link rel="stylesheet" href="{% static 'css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style2.css' %}">
     
 </head>
 <body>
@@ -18,9 +19,9 @@
 
         <div class="top-container">
             <div class="container">
-                <img src="./img/bak.png" alt="logo" class="quiz-img">
-            <h1 class="quiz-heading">Josh Quiz App</h1>
-            <p>This quiz was brought to you by Dee Josh.</p>
+                <img src="{% static 'img/bak.png' %}" alt="logo" class="quiz-img">
+            <h1 class="quiz-heading">{{ quiz_name }}</h1>
+            <p>Answer all questions correctly</p>
             </div>
 
             <div class="Score">
@@ -44,7 +45,7 @@
             <div class="question-container">
                 <div class="top-content">
                     <div class="name">
-                        <h1 class="username">Dee Josh</h1>
+                        <h1 class="username">{{ user_name }}</h1>
                     </div>
                 
             
@@ -119,6 +120,6 @@
     
     </div>
 
-    <script src="./Scripts/script2.js"></script>
+    <script src="{% static 'scripts/script2.js' %}"></script>
 </body>
 </html>

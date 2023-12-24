@@ -32,26 +32,20 @@
             <form class="login">
                 <div class="user-details">
                     <div class="main-input">
-                        <input type="text" placeholder="Username" class="input" name="username"><br>
-                        <input type="password" name="password" placeholder="Password" class="input"><br>
 
-                        <select name="categories" id="categories">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        {% comment %} <input type="text" placeholder="Username" class="input" name="username"><br>
+                        <input type="password" name="password" placeholder="Password" class="input"><br> {% endcomment %}
+
+                        {% comment %} <select name="categories" id="categories">
                             <option value="categories" selected hidden>Categories</option>
                             <option value="General Studies">General Studies</option>
                             <option value="History">History</option>
                             <option value="Current Affairs">Current Affairs</option>
                             <option value="Mathematics">Mathematics</option>
 
-                        </select>
-                    </div>
-                  
-                    
-                    <div class="gender">
-                        <input type="radio" name="Male" id="Male">
-                        <label for="Male">Male</label>
-    
-                        <input type="radio" name="Female" id="Female">
-                        <label for="Female">Female</label>
+                        </select> {% endcomment %}
                     </div>
                     <br>
     
