@@ -5,7 +5,8 @@ from .models import User, Questions
 class SignForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = '__all__'
+        fields = ("username", "password", "email", "gender")
+
 class LogForm(forms.ModelForm):
     class Meta:
         model = User

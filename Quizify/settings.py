@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'formtools',
     
 ]
-CRISPY_PACK_TEMPLATE = "bootstrap4"
+CRISPY_TEMPLATE_PACK = 'uni_form'
 
 MIDDLEWARE = [
     'debug_toolbar.middleware.DebugToolbarMiddleware',

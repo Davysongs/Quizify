@@ -4,18 +4,20 @@ import requests
 from rest_framework.response import Response
 from django.views.decorators.csrf import csrf_exempt
 from RawApp.forms import SignForm, LogForm
-from formtools.wizard.views import SessionWizardView
+from formtools.wizard.views  import SessionWizardView
 
 
 # Create your views here.
 #signup
 
 class Register(SessionWizardView):
-    from_list = [SignForm]
-    template_name = "login.html"
+    form_list = [SignForm]
+    template_name = "log.html"
     def done (self, from_list, **kwargs):
         return Response("form submitted")
 
+# def register (request):
+#     return render(request, "sign-up.html")
 
 #login 
 def login (request):

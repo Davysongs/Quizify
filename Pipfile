@@ -11,7 +11,7 @@ requests = "*"
 pytest = "*"
 django-debug-toolbar = "*"
 mysqlclient = "*"
-django-formtools = "*"
+django-formtools = "==2.3"
 
 [dev-packages]
 
