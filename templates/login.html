@@ -1,10 +1,11 @@
 {% load static %}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Josh-Quiz-App || Login Page</title>
+    <title>Quizify || Login</title>
     <link rel="shortcut icon" href="{% static 'img/logo.png' %}"type="image/x-icon">
     <link rel="stylesheet" type="text/css" href="{% static 'css/style3.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
@@ -29,23 +30,15 @@
 
     <div class="bottom-container">
         <div class="container">
-            <form class="login">
+            <form class="login" method="post" action= "{% url 'login' %}">
                 <div class="user-details">
                     <div class="main-input">
-
-                        {% csrf_token %}
-                        {{ form.as_p }}
-                        {% comment %} <input type="text" placeholder="Username" class="input" name="username"><br>
-                        <input type="password" name="password" placeholder="Password" class="input"><br> {% endcomment %}
-
-                        {% comment %} <select name="categories" id="categories">
-                            <option value="categories" selected hidden>Categories</option>
-                            <option value="General Studies">General Studies</option>
-                            <option value="History">History</option>
-                            <option value="Current Affairs">Current Affairs</option>
-                            <option value="Mathematics">Mathematics</option>
-
-                        </select> {% endcomment %}
+                        <label for="email">Email</label> 
+                        {{ form.email}}
+                    </div>
+                    <div class="main-input">
+                        <label for="Password">Password</label> 
+                        {{ form.password}}
                     </div>
                     <br>
     

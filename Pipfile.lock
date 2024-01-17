@@ -160,14 +160,6 @@
             "index": "pypi",
             "version": "==4.2.0"
         },
-        "django-formtools": {
-            "hashes": [
-                "sha256:4699937e19ee041d803943714fe0c1c7ad4cab802600eb64bbf4cdd0a1bfe7d9",
-                "sha256:9663b6eca64777b68d6d4142efad8597fe9a685924673b25aa8a1dcff4db00c3"
-            ],
-            "index": "pypi",
-            "version": "==2.3"
-        },
         "django-rest-framework": {
             "hashes": [
                 "sha256:47a8f496fa69e3b6bd79f68dd7a1527d907d6b77f009e9db7cf9bb21cc565e4a"

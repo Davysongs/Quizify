@@ -69,10 +69,10 @@ body {
 }
 
 .form__group label {
-  font-size: 1.3rem;
+  font-size: 1.4rem;
 }
 
-.form__group-input {
+.custom {
   padding: 1rem;
   /* flex: 0.8; */
   margin-bottom: 1.5rem;

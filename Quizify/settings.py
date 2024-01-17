@@ -41,10 +41,11 @@ INSTALLED_APPS = [
     'rest_framework',
     'crispy_forms',
     'debug_toolbar',
-    'formtools',
+    'QuizMgt',
     
 ]
-CRISPY_TEMPLATE_PACK = 'uni_form'
+CRISPY_TEMPLATE_PACK = 'bootstrap4'  # Choose the template pack you want to use (e.g., 'bootstrap4')
+
 
 MIDDLEWARE = [
     'debug_toolbar.middleware.DebugToolbarMiddleware',
@@ -136,3 +137,6 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+LOGIN_REDIRECT_URL = 'dashboard'
+LOGIN_URL = "login"
+LOGOUT_URL = "logout"

@@ -7,15 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quizify || Register Page</title>
     <link rel="shortcut icon" href="{% static 'img/logo.png' %}" type="image/x-icon">
-
-
     <link rel="stylesheet" type = "text/css" href="{% static 'css/all.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/style4.css' %}">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
   </head>
   <body>
-    {{error}}
     <!-- action="/api/v1/users" method="post" -->
     <div class="back-to-home">
         <p class="home"> <a href="{% url 'main' %}" class="top"><i class="fa-solid fa-circle-chevron-up"></i></a></p>
@@ -26,11 +22,34 @@
       <h1 class="form__heading">Quizify</h1>
       <p class="register">Register Here</p>
       {% csrf_token %}
-      {{ form.as_p}} 
+      <div class="form__group">
+        <label for="username">Name</label>
+        {{ form.username}} 
+        <div class="form__group-small"></div>
+      </div>
+
+      <div class="form__group">
+        <label for="email">Email</label> 
+        {{ form.email}}
+      <div class="form__group-small"></div>
+
+      <div class="form__group">
+        <label for="gender">Gender</label> 
+        {{ form.gender}}
+      <div class="form__group-small"></div>
+
+      <div class="form__group">
+        <label for="Password">Password</label> 
+        {{ form.password}}
+      <div class="form__group-small"></div>
+
+      
+    </div>
+
       
       <div class="form__group">
         <input type="submit" required class="submit-btn form__group-input" />
-        <p>Have you registered? <a href="{% url 'login' %}">Login Here</a></p>
+        <p>Already have an account? <a href="{% url 'login' %}">Login Here</a></p>
       </div>
     </form>   
   </body>

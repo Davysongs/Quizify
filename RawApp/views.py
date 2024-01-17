@@ -1,39 +1,62 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import User
 import requests
 from rest_framework.response import Response
 from django.views.decorators.csrf import csrf_exempt
 from RawApp.forms import SignForm, LogForm
-from formtools.wizard.views  import SessionWizardView
-
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
+#Home page 
+def main(request):
+    return render(request, "index.html")
+
 #signup
+def register(request):
+    form = SignForm()
+    if request.method == 'POST':
+        form = SignForm(request.POST)
+        if form.is_valid():
+            #check if user alredy exists before saving
 
-class Register(SessionWizardView):
-    form_list = [SignForm]
-    template_name = "log.html"
-    def done (self, from_list, **kwargs):
-        return Response("form submitted")
+            user = form.save()
+            return Response ("Hi its done")
+            #render htmx that says sign up successful into the login form
 
-# def register (request):
-#     return render(request, "sign-up.html")
+        context = {"form" : form}
+        return render (request, "login.html")
+        
+    elif request.method == "GET":
+        context = {"form" : form}
+        return render(request, "sign-up.html", context)
+
+
 
 #login 
 def login (request):
-    log_info = LogForm()
+    form = LogForm()
     if request.method == "POST":
-        u_email = request.POST.get("u_email")
-        u_password = request.POST.get("u_password")
-        log_info = LogForm(request.POST)
-        if log_info.is_valid():
-            search = request.query_params.get(u_email)
-    context = {"form": log_info}
-    return render(request, "login.html", context)    
+        if form.is_valid():
+            email = request.POST['email']
+            password = request.POST['password']
+            user = authenticate(request, email=email, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect("base.html")
+            #check if user already exists and give an error message if user doesn't
 
-def main(request):
-    return render(request, "index.html")
-def test(request):
-    quiz_name ={"text":"Agriculture"}
-    user_name = {"text": "Davido"} 
-    return render(request, "quiz-page.html", quiz_name, ) 
+
+            #give an error message if user password is incorrect
+
+            # the login session should direct authenticated user to the QuizMgt App { the return is temporary for testing purpose}
+
+            
+    context = {"form": form}
+    return render(request, "login.html", context)  
+
+#Main user dashboard page
+@login_required
+def dashboard(request):
+    return render(request, "home.html", {"section":"dashboard"})
+
