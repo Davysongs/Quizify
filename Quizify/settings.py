@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os
 from pathlib import Path
+from django.urls import reverse
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -42,6 +44,8 @@ INSTALLED_APPS = [
     'crispy_forms',
     'debug_toolbar',
     'QuizMgt',
+    'Questions',
+    'Results',
     
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'  # Choose the template pack you want to use (e.g., 'bootstrap4')
@@ -136,7 +140,10 @@ STATICFILES_DIRS = [
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
+AUTH_USER_MODEL = 'RawApp.User'
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 LOGIN_REDIRECT_URL = 'dashboard'
 LOGIN_URL = "login"
 LOGOUT_URL = "logout"

@@ -31,10 +31,11 @@
     <div class="bottom-container">
         <div class="container">
             <form class="login" method="post" action= "{% url 'login' %}">
+                {% csrf_token %}
                 <div class="user-details">
                     <div class="main-input">
                         <label for="email">Email</label> 
-                        {{ form.email}}
+                        {{ form.username}}
                     </div>
                     <div class="main-input">
                         <label for="Password">Password</label> 

@@ -1,5 +1,7 @@
 from django import forms
 from .models import User
+from django.contrib.auth.forms import AuthenticationForm
+
 
 
 class SignForm(forms.ModelForm):
@@ -22,11 +24,12 @@ class SignForm(forms.ModelForm):
             user.save()
         return user
 
-class LogForm(forms.ModelForm):
+class LogForm(AuthenticationForm):
     class Meta:
         model = User
-        fields = ("email", "password")
+        fields = ["username", "password"]
         widgets = {
             "password" : forms.PasswordInput(attrs = {"class":"input"}),
-             "email": forms.EmailInput(attrs = {"class":"input"})
+             "username": forms.TextInput(attrs = {"class":"input"})
         }
+        
