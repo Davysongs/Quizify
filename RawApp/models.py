@@ -1,18 +1,24 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
-
 
 # Create your models here.
-# class User(models.Model):
-#     CHOICES = ( 
-#     ("male","Male"), ("female","Female"), ("nonbinary","Rather not say")
-#     )
-#     username = models.CharField(max_length=30, unique =True)
-#     password = models.CharField(max_length=128)
-#     email = models.EmailField(max_length=128,unique =True)
-#     gender = models.CharField(max_length=30, choices = CHOICES, default="nonbinary")
-#     time = models.DateTimeField(auto_now=True)
-#     def __str__(self):
-#         return self.username
+ALLCHOICES = (
+    ("easy","easy"),
+    ("medium","medium"),
+    ("hard","hard"),
+)
+class Quiz(models.Model):
+    name = models.CharField(max_length=50)
+    topic = models.CharField(max_length=50)
+    quiz_length = models.IntegerField()
+    time = models.IntegerField(help_text = "minutes")
+    pass_mark = models.IntegerField(help_text = "minimum required score")
+    difficulty = models.CharField(max_length =10, choices = ALLCHOICES ) 
+
+    def __str__(self):
+        return f"{self.name}-{self.topic}"
+    
+    def getquestions(self):
+        return self.question_set.all()
+
 
 

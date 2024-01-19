@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'crispy_forms',
     'debug_toolbar',
-    'QuizMgt',
     'Questions',
     'Results',
     
