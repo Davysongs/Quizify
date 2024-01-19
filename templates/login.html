@@ -1,68 +1,124 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html>
+    
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quizify || Login</title>
-    <link rel="shortcut icon" href="{% static 'img/logo.png' %}"type="image/x-icon">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/style3.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/all.min.css' %}">
+    <link rel="icon" href="{% static 'img/logo.png' %}">
+	<title>Quizify - Login</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+	<style>
+		body,
+		html {
+			margin: 0;
+			padding: 0;
+			height: 100%;
+			background: #7abecc !important;
+		}
+		.user_card {
+			width: 350px;
+			margin-top: auto;
+			margin-bottom: auto;
+			background: #74cfbf;
+			position: relative;
+			display: flex;
+			justify-content: center;
+			flex-direction: column;
+			padding: 10px;
+			box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+			-webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+			-moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+			border-radius: 5px;
+
+		}
+
+		.form_container {
+			margin-top: 20px;
+		}
+
+		#form-title{
+			color: #fff;
+			
+		}
+
+		.login_btn {
+			width: 100%;
+			background: #33ccff !important;
+			color: white !important;
+		}
+		.login_btn:focus {
+			box-shadow: none !important;
+			outline: 0px !important;
+		}
+		.login_container {
+			padding: 0 2rem;
+		}
+		.input-group-text {
+			background: #f7ba5b !important;
+			color: white !important;
+			border: 0 !important;
+			border-radius: 0.25rem 0 0 0.25rem !important;
+		}
+		.input_user,
+		.input_pass:focus {
+			box-shadow: none !important;
+			outline: 0px !important;
+		}
+
+		#messages{
+			background-color: grey;
+			color: #fff;
+			padding: 10px;
+			margin-top: 10px;
+		}
+	</style>
+
 </head>
 <body>
+	<div class="container h-100">
+		<div class="d-flex justify-content-center h-100">
+			<div class="user_card">
+				<div class="d-flex justify-content-center">
 
-    <!-- TOP CONTAINER -->
 
-    <div class="top-container">
-        <div class="container">
-            <img src="{% static 'img/bak.png' %}" alt="logo" class="quiz-img">
-            <h1 class="quiz-heading">Quizify</h1>
-            <p>Test your knowledge in a broad range of topics.</p>
-        </div>
-        <div class="back-to-home">
-            <p class="home"> <a href="{% url 'main' %}" class="top"><i class="fa-solid fa-circle-chevron-up"></i></a></p>
-        </div>
-    </div>
+					<h3 id="form-title">LOGIN</h3>
+				</div>
+				<div class="d-flex justify-content-center form_container">
+					<form method="POST" action="">
+						{% csrf_token %}
+						<div class="input-group mb-3">
+							<div class="input-group-append">
+								<span class="input-group-text"><i class="fas fa-user"></i></span>
+							</div>
+							<input type="text" name="username" placeholder="Username..." class="form-control">
+						</div>
+						<div class="input-group mb-2">
+							<div class="input-group-append">
+								<span class="input-group-text"><i class="fas fa-key"></i></span>
+							</div>
+								<input type="password" name="password" placeholder="Password..." class="form-control" >
+						</div>
 
-    <!-- YOUR DETAILS CONTAINER -->
+							<div class="d-flex justify-content-center mt-3 login_container">
+				 				<input class="btn login_btn" type="submit" value="Login">
+				   			</div>
+					</form>
 
-    <div class="bottom-container">
-        <div class="container">
-            <form class="login" method="post" action= "{% url 'login' %}">
-                {% csrf_token %}
-                <div class="user-details">
-                    <div class="main-input">
-                        <label for="email">Email</label> 
-                        {{ form.username}}
-                    </div>
-                    <div class="main-input">
-                        <label for="Password">Password</label> 
-                        {{ form.password}}
-                    </div>
-                    <br>
-    
-            
-                    <div class="check-box">
-                        <input type="checkbox" name="read" id="read">
-                        <label for="read">I have read your <a href="">instructions</a></label>
-                    </div>            
-                </div>
-                <br>
-                <div class="start-button-container">
-                    <button type="submit" class="start-button">Start</button>
-                </div>
-            </form>
-           
-            <br>
-                <div class="not-registered">
-                    <p>Not yet registered? <a href="{% url 'register' %}">Sign up</a></p>
-                </div>
-        </div>
-        
-    </div>
-
-   {% comment %} <script src="{% static 'Scripts/script3.js' %}"></script> {% endcomment %}
+				</div>
+				{% for message in messages %}
+					<p id = "messages">{{ message }}</p>
+				{% endfor %}
+		
+				<div class="mt-4">
+					<div class="d-flex justify-content-center links">
+						Don't have an account? <a href="{% url 'register' %}" class="ml-2">Sign Up</a>
+					</div>
+			
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
+
 </html>

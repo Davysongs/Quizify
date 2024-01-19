@@ -6,6 +6,8 @@
 {%block content %}
 <header>
     {% comment %} display the user's name {% endcomment %}
+    <span><a href = "{% url 'logout' %}"> Logout </a></span>
+    <p>Hello {{ request.user }}</p>
     <h1>Welcome to Quizify</h1>
 </header>
 <body>
