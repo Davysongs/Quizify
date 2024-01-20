@@ -5,6 +5,9 @@ from RawApp.forms import SignForm #LogForm
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.contrib.auth import authenticate, login, logout
+from django.views.generic import ListView
+from .models import Quiz
+from django.utils.decorators import method_decorator
 
 
 # Create your views here.
@@ -56,9 +59,15 @@ def userlogout(request):
     return redirect('login')
 
 #homepage/dashboard
+method_decorator(login_required, name= "login")
+class QuizListView(ListView):
+    model = Quiz
+    template_name = "home.html"
+
 @login_required(login_url= 'login')
-def home(request):
-    return render(request, "home.html")
+def quiz_view(request, pk):
+    quiz = Quiz.objects.get(pk=pk)
+    return render(request, "quiz.html", {'obj':quiz})
 
 
    

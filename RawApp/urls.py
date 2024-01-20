@@ -1,6 +1,5 @@
-from django.urls import path,include
+from django.urls import path
 from . import views
-
 
 
 urlpatterns = [
@@ -8,5 +7,6 @@ urlpatterns = [
     path('login/', views.signin, name='login'),
     path('logout/', views.userlogout, name='logout'),
     path('', views.main, name="main"),
-    path('home', views.home , name="home"),
+    path('home', views.QuizListView.as_view() , name="home"),
+    path('<pk>/', views.quiz_view, name= "quiz")
 ]

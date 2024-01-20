@@ -1,28 +1,66 @@
 {% extends "base.html" %}
-{% block title %} Dashboard {% endblock %}
+{% block title %} Dashboard - {{request.user}} {% endblock %}
+{% block script %}
+<script src="{% static 'scripts/quiz.js' %}"></script>
+{% endblock script%}
 {% block head %} 
+
  {% comment %} all the header tags {% endcomment %} 
 {% endblock %}
 {%block content %}
-<header>
-    {% comment %} display the user's name {% endcomment %}
-    <span><a href = "{% url 'logout' %}"> Logout </a></span>
-    <p>Hello {{ request.user }}</p>
-    <h1>Welcome to Quizify</h1>
-</header>
-<body>
-    <div>
-        <h2>Make A  Quiz selection from the available options</h2>
-        <h3>Select a the number of questions and the time control you would like to use</h3>
-    </div>
-    <div class= "selection">
-        <div>
-            
+<div>
+    <header>
+        <span><a href = "{% url 'logout' %}"> Logout </a></span>
+        <p>Hello {{ request.user }}</p>
+        <h1>Welcome to Quizify</h1>
+    </header>
+  
+  <!-- Modal -->
+    <div class="modal fade" id="quizModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Start</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body-confirm">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Understood</button>
+                </div>
+            </div>
         </div>
-
     </div>
-</body>
-<footer>
-    {% comment %} Add developed by me and link to the github source code {% endcomment %}
-</footer>
+    <div class = "h1"> Quiz List </div>
+    <div>
+      {% for obj in object_list %}
+      <button
+          class = "btn btn-link modal-button"
+          data-pk = "{{obj.pk}}"
+          data-quiz = "{{obj.name}}"
+          data-questions = "{{obj.quiz_lenth}}"
+          data-difficulty = "{{obj.difficulty}}"
+          data-time = "{{obj.time}}"
+          data-pass = "{{obj.pass_mark}}"
+          data-toggle="modal" data-target="#quizModal">
+          {{obj.name}}
+    </button>
+      {% endfor %}
+    </div>
+
+    <footer id="footer">
+        <div class="container">
+            <h3>Quizify</h3>
+            <div class="copyright">
+                &copy; Copyright <strong><span> Davysongs </span></strong>. All Rights Reserved
+            </div>
+            <div class="credits">
+                Developed by <a href="https://github.com/davysongs">Davysongs</a>
+            </div>
+        </div>
+  </footer>
+<div>
 {% endblock %}

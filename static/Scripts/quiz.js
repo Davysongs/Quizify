@@ -8,7 +8,7 @@ const chosenCategory = JSON.parse(localStorage.getItem("category"))
 const userName = document.querySelector(".username");
 const time = document.querySelector(".time");
 let miniutes = 5;
-let seconds = 00;
+let seconds = 0;
 
 // Question & Options
 const questionText = document.querySelector(".question-text");
