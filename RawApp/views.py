@@ -70,6 +70,7 @@ def quiz_view(request, pk):
     quiz = Quiz.objects.get(pk=pk)
     return render(request, "quiz.html", {'obj':quiz})
 
+@login_required(login_url= 'login')
 def quiz_data(request, pk):
     quiz = Quiz.objects.get(pk=pk)
     questions = []

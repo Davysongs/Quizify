@@ -7,7 +7,7 @@ class Question(models.Model):
     text = models.CharField(max_length= 300)
     date = models.DateTimeField(auto_now_add = True)
 
-    def __self__ (self):
+    def __str__(self):
         return str(self.text)
     
     def get_answers(self):

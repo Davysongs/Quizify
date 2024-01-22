@@ -1,4 +1,5 @@
 from django.db import models
+import random
 
 # Create your models here.
 ALLCHOICES = (
@@ -18,7 +19,10 @@ class Quiz(models.Model):
         return f"{self.name}-{self.topic}"
     
     def getquestions(self):
-        return self.question_set.all()[:self.quiz_length]
+        questions = list(self.question_set.all())
+        random.shuffle(questions)
+        return questions[:self.quiz_length]
+    
     class Meta:
         verbose_name_plural = "Quizes"
 
