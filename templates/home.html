@@ -1,8 +1,9 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %} Dashboard - {{request.user}} {% endblock %}
 {% block script %}
 <script src="{% static 'scripts/quiz.js' %}"></script>
-{% endblock script%}
+{% endblock %}
 {% block head %} 
 
  {% comment %} all the header tags {% endcomment %} 

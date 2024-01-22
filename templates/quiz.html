@@ -18,12 +18,12 @@
         <div class="top-container">
             <div class="container">
                 <img src="{% static 'img/bak.png' %}" alt="logo" class="quiz-img">
-            <h1 class="quiz-heading">{{ request.quiz }}</h1>
+            <h1 class="quiz-heading">Quizify:{{ obj.name }}</h1>
             <p>Answer all questions correctly</p>
             </div>
 
             <div class="Score">
-                <h2>{{ obj.name }}: {{ obj.topic}}</h2>
+                <h2>{{ request.user }}</h2>
             </div>
         </div>
 
@@ -36,7 +36,7 @@
             <div class="question-container">
                 <div class="top-content">
                     <div class="name">
-                        <h1 class="username">{{ request.user }}</h1>
+                        <h1 class="username"> {{ obj.topic}}</h1>
                     </div>
                 
             

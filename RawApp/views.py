@@ -59,7 +59,7 @@ def userlogout(request):
     return redirect('login')
 
 #homepage/dashboard
-method_decorator(login_required, name= "login")
+@method_decorator(login_required, name= "dispatch")
 class QuizListView(ListView):
     model = Quiz
     template_name = "home.html"
