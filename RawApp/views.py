@@ -8,6 +8,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.views.generic import ListView
 from .models import Quiz
 from django.utils.decorators import method_decorator
+from django.http import JsonResponse
 
 
 # Create your views here.
@@ -69,5 +70,15 @@ def quiz_view(request, pk):
     quiz = Quiz.objects.get(pk=pk)
     return render(request, "quiz.html", {'obj':quiz})
 
-
-   
+def quiz_data(request, pk):
+    quiz = Quiz.objects.get(pk=pk)
+    questions = []
+    for data in quiz.getquestions():
+        answers = []
+        for a in data.get_answers():
+            answers.append(a.text)
+        questions.append({str(data):answers})
+    return JsonResponse({
+        'data':questions,
+       'time':quiz.time,
+    })
