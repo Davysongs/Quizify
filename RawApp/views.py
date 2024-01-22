@@ -83,3 +83,6 @@ def quiz_data(request, pk):
         'data':questions,
        'time':quiz.time,
     })
+def save_quiz(request, pk):
+    print(request.POST)
+    return JsonResponse({"text":"works"})
