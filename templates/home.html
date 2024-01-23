@@ -1,12 +1,10 @@
 {% extends "base.html" %}
 {% load static %}
 {% block title %} Dashboard - {{request.user}} {% endblock %}
-{% block script %}
-<script src="{% static 'scripts/home.js' %}"></script>
-{% endblock %}
-{% block head %} 
+{% block script %}<script src="{% static 'scripts/home.js' %}"></script>{% endblock %}
+{% block style %} 
 
- {% comment %} all the header tags {% endcomment %} 
+ {% comment %} all the style{% endcomment %} 
 {% endblock %}
 {%block content %}
 <div>

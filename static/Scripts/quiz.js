@@ -39,4 +39,4 @@ const  sendData = () =>{
 
 }
 
-quizform.addEventListener()
+// quizform.addEventListener()
