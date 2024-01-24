@@ -3,7 +3,6 @@ const url = window.location.href
 const quizform = document.getElementById("quiz-form")
 const csrf = document.getElementsByName("csrfmiddlewaretoken")
 const elements = [...document.getElementsByClassName("ans")]
-
 const quizBox = document.getElementById('quiz-box')
 
 $.ajax({

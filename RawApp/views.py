@@ -24,11 +24,13 @@ def register(request):
         form = SignForm()
         if request.method == 'POST':
             form = SignForm(request.POST)
+            context = {"form" : form}
             if form.is_valid():
                 form.save()
                 user = form.cleaned_data.get("username")
                 messages.success(request, user + "your account was created successfully")
                 return redirect('login')
+            return render(request, "sign-up.html", context)
         elif request.method == "GET":
             context = {"form" : form}
             return render(request, "sign-up.html", context)

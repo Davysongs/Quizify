@@ -254,15 +254,6 @@ body{
     transition: 0s !important;
 }
 
-.score-plus{
-    color: green;
-    transition: all 1s
-}
-
-.score-minus{
-    color: red;
-    transition: all 1s
-}
 
 .Score{
     position: absolute;
