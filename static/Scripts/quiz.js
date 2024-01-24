@@ -2,7 +2,6 @@
 const url = window.location.href
 const quizform = document.getElementById("quiz-form")
 const csrf = document.getElementsByName("csrfmiddlewaretoken")
-const elements = [...document.getElementsByClassName("ans")]
 const quizBox = document.getElementById('quiz-box')
 
 $.ajax({
@@ -34,8 +33,38 @@ $.ajax({
         console.log(error)
     }
 })
-const  sendData = () =>{
 
+const  sendData = () =>{
+    const elements = [...document.getElementsByClassName("ans")]
+    console.log(elements)
+    const data = {}
+    data['csrfmiddlewaretoken'] = csrf[0].value
+    elements.forEach(el=>{
+        if (el.checked) {
+            data[el.name] = el.value
+        }
+        else{
+            if (!data[el.name]){
+                data[el.name] = null
+                console.log("set")
+            }
+        }
+    })
+    $.ajax({
+        type: 'POST',
+        url: `${url}/save`,
+        data: data,
+        success: function(response){
+            console.log(response)
+        },
+        error: function(error){
+            console.log(error)
+        }
+    })
 }
 
-// quizform.addEventListener()
+
+quizform.addEventListener('submit', e=>{
+    e.preventDefault()
+    sendData()
+})

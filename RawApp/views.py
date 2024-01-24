@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from rest_framework.response import Response
 from django.contrib import messages
 from RawApp.forms import SignForm #LogForm
@@ -9,6 +9,8 @@ from django.views.generic import ListView
 from .models import Quiz
 from django.utils.decorators import method_decorator
 from django.http import JsonResponse
+from Questions.models import Question, Answer
+from Results.models import Result
 
 
 # Create your views here.
@@ -86,5 +88,42 @@ def quiz_data(request, pk):
        'time':quiz.time,
     })
 def save_quiz(request, pk):
-    print(request.POST)
+    # print(request.POST)
+    if request.is_ajax():
+        questions = []
+        raw = request.POST
+        data = dict(raw.lists())
+        data.pop("csrfmiddlewaretoken")
+        for key in data.keys():
+            question = Question.objects.get(text = key)
+            questions.append(question)
+        user = request.user
+        quiz = Quiz.objects.get(pk=pk)
+
+        score = 0
+        multiplier = 100/quiz.quiz_length
+        results = [ ]
+        correct = None
+
+        for q in questions:
+            selected = request.POST.get(str(q))
+            print("Select"+selected)
+            if selected  != "":
+                sanswer = Answer.objects.filter(question = q)
+                for ans in sanswer:
+                    if selected == ans:
+                        if ans.correct():
+                            score +=1
+                            correct_ans = ans.text
+                    else:
+                        if ans.correct():
+                            correct_ans = ans.text
+                results.append({str(q):{"Correct Answer":correct_ans, "Answered": selected}})
+            else:
+                results.append({str(q):"Not Answered"})
+        scored = score * multiplier
+        Result.objects.create(quiz= quiz, user = user, score =scored) 
+        if scored >= quiz.pass_mark:
+            return JsonResponse({"passed":True, "score":scored})
+
     return JsonResponse({"text":"works"})
