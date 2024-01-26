@@ -1,6 +1,5 @@
 # QuizApp
 All source codes and files for quiz app
-Certainly! Crafting a good GitHub description is essential for providing a concise overview of your project. Here's a sample description for your quiz app:
 
 ---
 
