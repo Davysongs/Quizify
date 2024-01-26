@@ -101,29 +101,31 @@ def save_quiz(request, pk):
         quiz = Quiz.objects.get(pk=pk)
 
         score = 0
-        multiplier = 100/quiz.quiz_length
         results = [ ]
         correct = None
 
         for q in questions:
             selected = request.POST.get(str(q))
-            print("Select"+selected)
+
             if selected  != "":
                 sanswer = Answer.objects.filter(question = q)
                 for ans in sanswer:
-                    if selected == ans:
-                        if ans.correct():
+                    if selected == ans.text:
+                        if ans.correct == True:
                             score +=1
                             correct_ans = ans.text
                     else:
-                        if ans.correct():
+                        if ans.correct:
                             correct_ans = ans.text
                 results.append({str(q):{"Correct Answer":correct_ans, "Answered": selected}})
             else:
                 results.append({str(q):"Not Answered"})
-        scored = score * multiplier
-        Result.objects.create(quiz= quiz, user = user, score =scored) 
-        if scored >= quiz.pass_mark:
-            return JsonResponse({"passed":True, "score":scored})
+
+#calculate the user's score in percentage
+        total = (score/quiz.quiz_length) * 100
+        Result.objects.create(quiz= quiz, user = user, score = total) 
+        print(quiz.pass_mark)
+        if  total >= quiz.pass_mark:
+            return JsonResponse({"passed":True, "score":total})
 
     return JsonResponse({"text":"works"})

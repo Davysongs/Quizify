@@ -36,7 +36,6 @@ $.ajax({
 
 const  sendData = () =>{
     const elements = [...document.getElementsByClassName("ans")]
-    console.log(elements)
     const data = {}
     data['csrfmiddlewaretoken'] = csrf[0].value
     elements.forEach(el=>{
