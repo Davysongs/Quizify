@@ -71,12 +71,10 @@ body{
 
 .time{
     font-size: 18px;
+    position: sticky;
 }
 
-.current-question{
-    font-weight: bold;
-    color: black;
-}
+
 
 .question-count{
     padding: 15px 0px;

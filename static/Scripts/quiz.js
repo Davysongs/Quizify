@@ -4,17 +4,46 @@ const quizform = document.getElementById("quiz-form")
 const csrf = document.getElementsByName("csrfmiddlewaretoken")
 const quizBox = document.getElementById('quiz-box')
 const timerBox = document.getElementById('timer-box')
-const timer = (time) =>{
+const Activatetimer = (time) =>{
     if (time.toString().length <2){
         timerBox.innerHTML =` <b>0${time}:00</b>`
     }else{
         timerBox.innerHTML=`<b>${time}</b>`
     }
-    let minute = time - 1
+    let minutes = time - 1
     let seconds = 60 
-    let displaySecond
+    let displaySeconds
     let displayMinutes    
-    console.log(time)
+    const timer = setInterval(() => {
+        seconds --
+        if (seconds< 0){
+            seconds = 59
+            minutes --
+        }  
+        if (minutes.toString().length < 2 ){
+            displayMinutes = "0" + minutes
+        }else{
+            displayMinutes = minutes
+        }
+        if (seconds.toString().length < 2){
+            displaySeconds = "0" + seconds
+        }else{
+            displaySeconds = seconds
+        }
+        if (minutes<1 && seconds < 31){
+            timerBox.style.color = 'red';
+            timerBox.style.fontSize = '30px';
+        }
+        if (minutes ===0 && seconds === 0){
+            timerBox.innerHTML = "<b>00:00</b>"
+            setTimeout(()=>{
+                clearInterval(timer)
+                alert("Time's up")
+                sendData()
+            }, 500)
+        }
+        timerBox.innerHTML = `<b>${displayMinutes}:${displaySeconds}</b>`
+    }, 1000);
 }
 
 $.ajax({
@@ -41,7 +70,7 @@ $.ajax({
                 })
             }
         });
-        timer(response.time)
+        Activatetimer(response.time)
     },
     error: function (error){
         console.log(error)
