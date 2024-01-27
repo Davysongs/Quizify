@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, HttpResponse
+from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
 from rest_framework.response import Response
 from django.contrib import messages
 from RawApp.forms import SignForm #LogForm
@@ -8,7 +8,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.views.generic import ListView
 from .models import Quiz
 from django.utils.decorators import method_decorator
-from django.http import JsonResponse
+from django.http import JsonResponse, Http404
 from Questions.models import Question, Answer
 from Results.models import Result
 
@@ -129,3 +129,24 @@ def save_quiz(request, pk):
             return JsonResponse({"passed":True, "score":total})
 
     return JsonResponse({"text":"works"})
+
+@login_required(login_url= 'login')
+def result(request,id):
+    """View to show the result of a particular quiz"""
+    #checking whether the user is trying to access another users result or not
+    try:
+        quiz = get_object_or_404(Quiz, pk=request.GET['id'])
+        if request.user != quiz.creator and not request.user.is_superuser :
+            raise Http404("No such quiz exists")
+    except KeyError:
+        quiz = Quiz.objects.get(pk=id)
+        #getting all the results related to this quiz from database 
+        resultee = Result.objects.filter(quiz=quiz).order_by('-created_at')[:5]
+        context={'results':resultee,'quiz':quiz}
+        return render(request,"result.html",context)
+    result = Result.objects.get(quiz=quiz, user=request.user)
+    context={'result':result,'quiz':quiz}
+    return render(request,"result.detail.html",context)
+
+def custom_404(request, exception):
+    return render(request, '404.html', status=404)

@@ -4,6 +4,9 @@ const quizform = document.getElementById("quiz-form")
 const csrf = document.getElementsByName("csrfmiddlewaretoken")
 const quizBox = document.getElementById('quiz-box')
 const timerBox = document.getElementById('timer-box')
+const confirm = document.getElementById('confirmed')
+
+//Quiz Countdown Timer
 const Activatetimer = (time) =>{
     if (time.toString().length <2){
         timerBox.innerHTML =` <b>0${time}:00</b>`
@@ -71,6 +74,11 @@ $.ajax({
             }
         });
         Activatetimer(response.time)
+        //Take user to result page
+        confirm.addEventListener('click', ()=>{
+            window.location.href =(url + pk)
+        })
+
     },
     error: function (error){
         console.log(error)
