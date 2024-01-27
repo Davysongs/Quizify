@@ -5,6 +5,7 @@ const csrf = document.getElementsByName("csrfmiddlewaretoken")
 const quizBox = document.getElementById('quiz-box')
 const timerBox = document.getElementById('timer-box')
 const confirm = document.getElementById('confirmed')
+let quizID;
 
 //Quiz Countdown Timer
 const Activatetimer = (time) =>{
@@ -53,7 +54,9 @@ $.ajax({
     type: 'GET',
     url: `${url}/data`,
     success: function(response){
-       const data= response.data
+        const data= response.data
+        quizID = response.qid
+        console.log(quizID)
         data.forEach(el => {
             for (const [question, answers] of Object.entries(el)){
                quizBox.innerHTML += `
@@ -76,7 +79,7 @@ $.ajax({
         Activatetimer(response.time)
         //Take user to result page
         confirm.addEventListener('click', ()=>{
-            window.location.href =(url + pk)
+            window.location.href =(`${url}/result/?content=${quizID}`)
         })
 
     },
@@ -101,7 +104,7 @@ const  sendData = () =>{
     })
     $.ajax({
         type: 'POST',
-        url: `${url}/save`,
+        url: `${url}/save/?content=${quizID}`,
         data: data,
         success: function(response){
             console.log(response)

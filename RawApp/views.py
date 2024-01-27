@@ -84,7 +84,7 @@ def quiz_data(request, pk):
         answers = []
         for a in data.get_answers():
             answers.append(a.text)
-    questions.append({str(data):answers})
+        questions.append({str(data):answers})
     # Get the current date and time
     current_datetime = datetime.datetime.now()
     # Convert the current date and time to an integer
@@ -93,18 +93,18 @@ def quiz_data(request, pk):
     def generate_random_letters(length):
         letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
         return ''.join(random.choice(letters) for _ in range(length))
-
     # Append two random letters to the integer
-    quizID = str(timestamp_integer) + generate_random_letters(2)
+    quizID = str(timestamp_integer)+ str(pk) + generate_random_letters(2)
+    print(quizID)
     return JsonResponse({
         'data':questions,
-       'time':quiz.time,
-       'qid': quizID
+        'time':quiz.time,
+        'qid': quizID
     })
 
 def save_quiz(request, pk):
-    # print(request.POST)
     if request.is_ajax():
+        quizID = request.GET.get("content")
         questions = []
         raw = request.POST
         data = dict(raw.lists())
@@ -135,9 +135,9 @@ def save_quiz(request, pk):
             else:
                 results.append({str(q):"Not Answered"})
 
-#calculate the user's score in percentage
+        #calculate the user's score in percentage
         total = (score/quiz.quiz_length) * 100
-        Result.objects.create(quiz= quiz, user = user, score = total) 
+        Result.objects.create(quiz= quiz, user = user, score = total, result_id = quizID) 
         print(quiz.pass_mark)
         if  total >= quiz.pass_mark:
             return JsonResponse({"passed":True, "score":total})
@@ -145,22 +145,12 @@ def save_quiz(request, pk):
     return JsonResponse({"text":"works"})
 
 @login_required(login_url= 'login')
-def result(request,id):
+def result(request, pk):
     """View to show the result of a particular quiz"""
+    return render(request, "result.html")
     #checking whether the user is trying to access another users result or not
-    try:
-        quiz = get_object_or_404(Quiz, pk=request.GET['id'])
-        if request.user != quiz.creator and not request.user.is_superuser :
-            raise Http404("No such quiz exists")
-    except KeyError:
-        quiz = Quiz.objects.get(pk=id)
-        #getting all the results related to this quiz from database 
-        resultee = Result.objects.filter(quiz=quiz).order_by('-created_at')[:5]
-        context={'results':resultee,'quiz':quiz}
-        return render(request,"result.html",context)
-    result = Result.objects.get(quiz=quiz, user=request.user)
-    context={'result':result,'quiz':quiz}
-    return render(request,"result.detail.html",context)
+
+
 
 # def custom_404(request):
 #     return render(request, '404.html', status=404)
