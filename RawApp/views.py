@@ -11,6 +11,8 @@ from django.utils.decorators import method_decorator
 from django.http import JsonResponse, Http404
 from Questions.models import Question, Answer
 from Results.models import Result
+import datetime
+import random
 
 
 # Create your views here.
@@ -82,11 +84,24 @@ def quiz_data(request, pk):
         answers = []
         for a in data.get_answers():
             answers.append(a.text)
-        questions.append({str(data):answers})
+    questions.append({str(data):answers})
+    # Get the current date and time
+    current_datetime = datetime.datetime.now()
+    # Convert the current date and time to an integer
+    timestamp_integer = int(current_datetime.timestamp())
+    # Function to generate random letters
+    def generate_random_letters(length):
+        letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+        return ''.join(random.choice(letters) for _ in range(length))
+
+    # Append two random letters to the integer
+    quizID = str(timestamp_integer) + generate_random_letters(2)
     return JsonResponse({
         'data':questions,
        'time':quiz.time,
+       'qid': quizID
     })
+
 def save_quiz(request, pk):
     # print(request.POST)
     if request.is_ajax():
@@ -102,7 +117,6 @@ def save_quiz(request, pk):
 
         score = 0
         results = [ ]
-        correct = None
 
         for q in questions:
             selected = request.POST.get(str(q))
@@ -148,5 +162,5 @@ def result(request,id):
     context={'result':result,'quiz':quiz}
     return render(request,"result.detail.html",context)
 
-def custom_404(request, exception):
-    return render(request, '404.html', status=404)
+# def custom_404(request):
+#     return render(request, '404.html', status=404)
