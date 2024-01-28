@@ -149,11 +149,12 @@ def result(request, pk):
     """View to show the result of a particular quiz"""
     detail = request.GET.get("context")
     user = request.user.username
+#to see only one specific result in detail
     if detail !="":
         try:
             redetail = Result.objects.get(result_id = detail)
             if redetail.user == user or user.is_staff:
-                #return html document that renders the persons results and performance 
+                #return html document that renders the persons result and performance 
                 print("youre permitted")
             else:
                 print("you cant view this bro")
@@ -161,10 +162,10 @@ def result(request, pk):
         except Result.DoesNotExist:
             # requested result does not exist
             pass
-
-              
-    return render(request, "result.html")
-    #checking whether the user is trying to access another users result or not
+    
+#to see all previous user results
+    else:
+        return render(request, "result.html")
 
 
 
