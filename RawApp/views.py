@@ -147,6 +147,22 @@ def save_quiz(request, pk):
 @login_required(login_url= 'login')
 def result(request, pk):
     """View to show the result of a particular quiz"""
+    detail = request.GET.get("context")
+    user = request.user.username
+    if detail !="":
+        try:
+            redetail = Result.objects.get(result_id = detail)
+            if redetail.user == user or user.is_staff:
+                #return html document that renders the persons results and performance 
+                print("youre permitted")
+            else:
+                print("you cant view this bro")
+
+        except Result.DoesNotExist:
+            # requested result does not exist
+            pass
+
+              
     return render(request, "result.html")
     #checking whether the user is trying to access another users result or not
 
