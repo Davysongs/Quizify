@@ -107,8 +107,7 @@ def save_quiz(request, pk):
     if request.is_ajax():
         quizID = request.GET.get("content")
         questions = []
-        raw = request.POST
-        data = dict(raw.lists())
+        data = dict(request.POST.lists())
         data.pop("csrfmiddlewaretoken")
         for key in data.keys():
             question = Question.objects.get(text = key)
@@ -139,26 +138,23 @@ def save_quiz(request, pk):
         #calculate the user's score in percentage
         total = (score/quiz.quiz_length) * 100
         Result.objects.create(quiz= quiz, user = user, score = total, result_id = quizID) 
-        print(quiz.pass_mark)
         if  total >= quiz.pass_mark:
             return JsonResponse({"passed":True, "score":total})
-
     return JsonResponse({"text":"works"})
 
 #get only the quiz results of the user
 @login_required(login_url= 'login')
 def results(request):
-    detail = request.GET.get('context')
+    detail = request.GET.get('quizref')
     username = request.user.username
     userdata = User.objects.get(username = username)
     #to see only one specific result in detail after quiz has ended
     if detail != None and detail !="":
-        print(detail)
         try:
             redetail = Result.objects.get(result_id = detail)
             if redetail.user == userdata or userdata.is_staff:
                 #return html document that renders the persons result and performance 
-                return render (request, "result_detail.html",{"res":redetail})
+                return render (request, "result_detail.html",{"result":redetail})
             else:
                 error_message = "You are not permitted to view  other results, contact the admin for any complaints"
                 return render(request, '404.html', {'error_message': error_message})
@@ -171,13 +167,13 @@ def results(request):
         userobj = Result.objects.filter(user = userdata.id)
         return render(request, "result.html", {"resobj" : userobj})
 
-
 @login_required(login_url= 'login')
 def result(request, pk):
     username = request.user.username
     user = User.objects.get(username=username)
     uniresult = Result.objects.filter(quiz = pk , user = user )
     return render(request, "result.html",{"resobj":uniresult})
+
 #errorpage view
 def custom_404(request, exception):
     return render(request, '404.html', status=404)

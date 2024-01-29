@@ -2,12 +2,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="icon" href="{% static 'img/logo.png' %}">
+    <title>{{result.quiz}}Result</title>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-    RESULTS for a specific quiz
+    <h1>Result for {{result.quiz}}</h1>
+    <h2>{{result.user}} you got {{ result.score}}% </h2>
 
 </body>
 </html>

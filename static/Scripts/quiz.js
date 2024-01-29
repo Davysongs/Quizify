@@ -79,7 +79,7 @@ $.ajax({
         Activatetimer(response.time)
         //Take user to result page
         confirm.addEventListener('click', ()=>{
-            window.location.href =(`${url}/result/?content=${quizID}`)
+            sendData()
         })
 
     },
@@ -89,34 +89,43 @@ $.ajax({
 })
 
 const  sendData = () =>{
-    const elements = [...document.getElementsByClassName("ans")]
-    const data = {}
-    data['csrfmiddlewaretoken'] = csrf[0].value
-    elements.forEach(el=>{
-        if (el.checked) {
-            data[el.name] = el.value
-        }
-        else{
-            if (!data[el.name]){
-                data[el.name] = null
+    quizform.addEventListener('submit', function (event) {
+        // Prevent the form from submitting the traditional way
+        event.preventDefault();
+        // Show the loading overlay  
+
+        
+        
+        const elements = [...document.getElementsByClassName("ans")]
+        const data = {}
+        data['csrfmiddlewaretoken'] = csrf[0].value
+        elements.forEach(el=>{
+            if (el.checked) {
+                data[el.name] = el.value
             }
-        }
-    })
-    $.ajax({
-        type: 'POST',
-        url: `${url}/save/?content=${quizID}`,
-        data: data,
-        success: function(response){
-            console.log(response)
-        },
-        error: function(error){
-            console.log(error)
-        }
-    })
+            else{
+                if (!data[el.name]){
+                    data[el.name] = null
+                }
+            }
+        })
+        $.ajax({
+            type: 'POST',
+            url: `${url}/save/?content=${quizID}`,
+            data: data,
+            success: function(response){
+                console.log(response)
+            },
+            error: function(error){
+                console.log(error)
+            }
+        })
+        
+        setTimeout(function () {
+        //Take user to result page and Hide the loading overlay once data is save
+            window.location.href =(`/results/?quizref=${quizID}`)
+        }, 2000); // Simulating a 2-second delay for data saving
+    });  
 }
 
 
-quizform.addEventListener('submit', e=>{
-    e.preventDefault()
-    sendData()
-})
