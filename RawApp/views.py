@@ -5,13 +5,14 @@ from RawApp.forms import SignForm #LogForm
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 from django.views.generic import ListView
 from .models import Quiz
 from django.utils.decorators import method_decorator
 from django.http import JsonResponse, Http404
 from Questions.models import Question, Answer
 from Results.models import Result
-import datetime
+import datetime 
 import random
 
 
@@ -144,30 +145,39 @@ def save_quiz(request, pk):
 
     return JsonResponse({"text":"works"})
 
+#get only the quiz results of the user
 @login_required(login_url= 'login')
-def result(request, pk):
-    """View to show the result of a particular quiz"""
-    detail = request.GET.get("context")
-    user = request.user.username
-#to see only one specific result in detail
-    if detail !="":
+def results(request):
+    detail = request.GET.get('context')
+    username = request.user.username
+    userdata = User.objects.get(username = username)
+    #to see only one specific result in detail after quiz has ended
+    if detail != None and detail !="":
+        print(detail)
         try:
             redetail = Result.objects.get(result_id = detail)
-            if redetail.user == user or user.is_staff:
+            if redetail.user == userdata or userdata.is_staff:
                 #return html document that renders the persons result and performance 
                 return render (request, "result_detail.html",{"res":redetail})
             else:
-                print("you cant view this bro")
-
+                error_message = "You are not permitted to view  other results, contact the admin for any complaints"
+                return render(request, '404.html', {'error_message': error_message})
         except Result.DoesNotExist:
             # requested result does not exist
-            pass
-    
-#to see all previous user results
+            error_message = "The result you requested to view does not exist"
+            return render(request, '404.html', {'error_message': error_message})  
+#to see all previous user results in a specific quiz
     else:
-        return render(request, "result.html")
+        userobj = Result.objects.filter(user = userdata.id)
+        return render(request, "result.html", {"resobj" : userobj})
 
 
-
-# def custom_404(request):
-#     return render(request, '404.html', status=404)
+@login_required(login_url= 'login')
+def result(request, pk):
+    username = request.user.username
+    user = User.objects.get(username=username)
+    uniresult = Result.objects.filter(quiz = pk , user = user )
+    return render(request, "result.html",{"resobj":uniresult})
+#errorpage view
+def custom_404(request, exception):
+    return render(request, '404.html', status=404)
