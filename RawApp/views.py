@@ -155,7 +155,7 @@ def result(request, pk):
             redetail = Result.objects.get(result_id = detail)
             if redetail.user == user or user.is_staff:
                 #return html document that renders the persons result and performance 
-                print("youre permitted")
+                return render (request, "result_detail.html",{"res":redetail})
             else:
                 print("you cant view this bro")
 
