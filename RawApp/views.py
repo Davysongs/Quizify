@@ -96,7 +96,6 @@ def quiz_data(request, pk):
         return ''.join(random.choice(letters) for _ in range(length))
     # Append two random letters to the integer
     quizID = str(timestamp_integer)+ str(pk) + generate_random_letters(2)
-    print(quizID)
     return JsonResponse({
         'data':questions,
         'time':quiz.time,
@@ -137,7 +136,7 @@ def save_quiz(request, pk):
 
         #calculate the user's score in percentage
         total = (score/quiz.quiz_length) * 100
-        Result.objects.create(quiz= quiz, user = user, score = total, result_id = quizID) 
+        Result.objects.create(quiz= quiz, user = user, score = total, result_id = quizID, options_selected = data, ) 
         if  total >= quiz.pass_mark:
             return JsonResponse({"passed":True, "score":total})
     return JsonResponse({"text":"works"})

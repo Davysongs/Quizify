@@ -9,6 +9,7 @@ class Result(models.Model):
     score = models.FloatField()
     result_id = models.CharField(max_length=13, primary_key = True)
     date = models.DateTimeField(auto_now_add = True)
+    options_selected = models.CharField(max_length = 1000, default = None)
     
 
     def __str__(self):
