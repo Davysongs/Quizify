@@ -157,10 +157,12 @@ def save_quiz(request, pk):
         Result.objects.create(quiz= quiz, user = user, score = total, result_id = quizID, question_ans = picked, answer_status = correct_status, status = verdict)
     else:
         return redirect("/home/")
-  
+    return JsonResponse({
+        'message':"Done"
+    })    
 
 #get only the quiz results of the user
-
+@login_required(login_url= 'login')
 def results(request):
     if request.method == "GET":
         detail = request.GET.get('quizref')
