@@ -85,28 +85,31 @@ def quiz_view(request, pk):
 
 @login_required(login_url= 'login')
 def quiz_data(request, pk):
-    quiz = Quiz.objects.get(pk=pk)
-    questions = []
-    for data in quiz.getquestions():
-        answers = []
-        for a in data.get_answers():
-            answers.append(a.text)
-        questions.append({str(data):answers})
-    # Get the current date and time
-    current_datetime = datetime.datetime.now()
-    # Convert the current date and time to an integer
-    timestamp_integer = int(current_datetime.timestamp())
-    # Function to generate random letters
-    def generate_random_letters(length):
-        letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-        return ''.join(random.choice(letters) for _ in range(length))
-    # Append two random letters to the integer
-    quizID = str(timestamp_integer)+ str(pk) + generate_random_letters(2)
-    return JsonResponse({
-        'data':questions,
-        'time':quiz.time,
-        'qid': quizID
-    })
+    if request.method == "GET":
+        quiz = Quiz.objects.get(pk=pk)
+        questions = []
+        for data in quiz.getquestions():
+            answers = []
+            for a in data.get_answers():
+                answers.append(a.text)
+            questions.append({str(data):answers})
+        # Get the current date and time
+        current_datetime = datetime.datetime.now()
+        # Convert the current date and time to an integer
+        timestamp_integer = int(current_datetime.timestamp())
+        # Function to generate random letters
+        def generate_random_letters(length):
+            letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+            return ''.join(random.choice(letters) for _ in range(length))
+        # Append two random letters to the integer
+        quizID = str(timestamp_integer)+ str(pk) + generate_random_letters(2)
+        return JsonResponse({
+            'data':questions,
+            'time':quiz.time,
+            'qid': quizID
+        })
+    else:
+        return redirect("/home/")
 
 @login_required(login_url= 'login')
 def save_quiz(request, pk):
@@ -154,12 +157,10 @@ def save_quiz(request, pk):
         Result.objects.create(quiz= quiz, user = user, score = total, result_id = quizID, question_ans = picked, answer_status = correct_status, status = verdict)
     else:
         return redirect("/home/")
-    return JsonResponse({
-        'message':"Done"
-    })    
+  
 
 #get only the quiz results of the user
-@login_required(login_url= 'login')
+
 def results(request):
     if request.method == "GET":
         detail = request.GET.get('quizref')
