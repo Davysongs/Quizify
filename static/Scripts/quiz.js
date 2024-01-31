@@ -7,6 +7,7 @@ const timerBox = document.getElementById('timer-box')
 const confirm = document.getElementById('confirmed')
 let quizID;
 
+
 //Quiz Countdown Timer
 const Activatetimer = (time) =>{
     if (time.toString().length <2){
@@ -42,7 +43,7 @@ const Activatetimer = (time) =>{
             timerBox.innerHTML = "<b>00:00</b>"
             setTimeout(()=>{
                 clearInterval(timer)
-                alert("Time's up")
+                alert("Get out")
                 sendData()
             }, 500)
         }
@@ -56,7 +57,6 @@ $.ajax({
     success: function(response){
         const data= response.data
         quizID = response.qid
-        console.log(quizID)
         data.forEach(el => {
             for (const [question, answers] of Object.entries(el)){
                quizBox.innerHTML += `
@@ -77,55 +77,45 @@ $.ajax({
             }
         });
         Activatetimer(response.time)
-        //Take user to result page
-        confirm.addEventListener('click', ()=>{
-            sendData()
-        })
-
     },
     error: function (error){
         console.log(error)
     }
 })
-
-const  sendData = () =>{
-    quizform.addEventListener('submit', function (event) {
+quizform.addEventListener('submit', function (event) {
         // Prevent the form from submitting the traditional way
         event.preventDefault();
-        // Show the loading overlay  
+        sendData()
+});  
 
-        
-        
-        const elements = [...document.getElementsByClassName("ans")]
-        const data = {}
-        data['csrfmiddlewaretoken'] = csrf[0].value
-        elements.forEach(el=>{
-            if (el.checked) {
-                data[el.name] = el.value
-            }
-            else{
-                if (!data[el.name]){
-                    data[el.name] = null
-                }
-            }
-        })
-        $.ajax({
-            type: 'POST',
-            url: `${url}/save/?content=${quizID}`,
-            data: data,
-            success: function(response){
-                console.log(response)
-            },
-            error: function(error){
-                console.log(error)
-            }
-        })
-        
-        setTimeout(function () {
-        //Take user to result page and Hide the loading overlay once data is save
-            window.location.href =(`/results/?quizref=${quizID}`)
-        }, 2000); // Simulating a 2-second delay for data saving
-    });  
+
+function sendData(){
+       // Show the loading overlay
+       const elements = [...document.getElementsByClassName("ans")]
+       const data = {}
+       data['csrfmiddlewaretoken'] = csrf[0].value
+       elements.forEach(el=>{
+           if (el.checked) {
+               data[el.name] = el.value
+           }
+           else{
+               if (!data[el.name]){
+                   data[el.name] = null
+               }
+           }
+       })
+       $.ajax({
+           type: 'POST',
+           url: `${url}/save/?content=${quizID}`,
+           data: data,
+           success: function(response){                      
+                setTimeout(function () {
+                    window.location.href =(`/results/?quizref=${quizID}`)
+                }, 2000);     
+           },
+           error: function(error){
+            console.log(error)                     
+           }
+       })
 }
-
 

@@ -102,7 +102,9 @@ def quiz_data(request, pk):
         'qid': quizID
     })
 
+@login_required(login_url= 'login')
 def save_quiz(request, pk):
+    if request.method = "POST"
     if request.is_ajax():
         quizID = request.GET.get("content")
         questions = []
@@ -115,7 +117,8 @@ def save_quiz(request, pk):
         quiz = Quiz.objects.get(pk=pk)
 
         score = 0
-        results = [ ]
+        picked = [ ]
+        correct_status = [ ]
 
         for q in questions:
             selected = request.POST.get(str(q))
@@ -124,22 +127,29 @@ def save_quiz(request, pk):
                 sanswer = Answer.objects.filter(question = q)
                 for ans in sanswer:
                     if selected == ans.text:
-                        if ans.correct == True:
+                        if ans.correct:
                             score +=1
-                            correct_ans = ans.text
+                            correct = "True"
                     else:
                         if ans.correct:
-                            correct_ans = ans.text
-                results.append({str(q):{"Correct Answer":correct_ans, "Answered": selected}})
+                            #ANS.TEXT IS THE CORRECT ANSWER
+                            correct = "False"
+                correct_status.append(correct)
+                picked.append({str(q):selected})
             else:
-                results.append({str(q):"Not Answered"})
+                picked.append({str(q):"Not Answered"})
+                correct_status.append("False")
 
         #calculate the user's score in percentage
         total = (score/quiz.quiz_length) * 100
-        Result.objects.create(quiz= quiz, user = user, score = total, result_id = quizID, options_selected = data, ) 
         if  total >= quiz.pass_mark:
-            return JsonResponse({"passed":True, "score":total})
-    return JsonResponse({"text":"works"})
+            verdict = "Passed"
+        else:
+            verdict = "Failed"
+        Result.objects.create(quiz= quiz, user = user, score = total, result_id = quizID, question_ans = picked, answer_status = correct_status, status = verdict)
+    return JsonResponse({
+        'message':"Done"
+    })    
 
 #get only the quiz results of the user
 @login_required(login_url= 'login')
