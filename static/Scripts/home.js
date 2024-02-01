@@ -1,7 +1,6 @@
 const modalBtns = [...document.getElementsByClassName('modal-button')]
 const modalBody = document.getElementById("modal-body-confirm")
 const startBtn = document.getElementById("start-button")
-const url = 'http://127.0.0.1:8000/quiz/'
 modalBtns.forEach(modalBtn=> modalBtn.addEventListener('click',()=>{
     const pk = modalBtn.getAttribute('data-pk')
     const name =modalBtn.getAttribute('data-quiz')
@@ -23,6 +22,6 @@ modalBtns.forEach(modalBtn=> modalBtn.addEventListener('click',()=>{
     `
 
     startBtn.addEventListener('click', ()=>{
-        window.location.href =(url + pk)
+        window.location.href =("/quiz/" + pk)
     })
 }))

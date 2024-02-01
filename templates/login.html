@@ -5,7 +5,6 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
 <link rel="stylesheet" href="{% static 'css/login.css' %}"> 
 {% endblock %}
-{% block script %}<script src="{% static 'scripts/login.js' %}" defer></script>{% endblock %}
 {% block content %}
 
 
@@ -40,9 +39,12 @@
 					</form>
 
 				</div>
-				{% for message in messages %}
-					<p id = "messages">{{ message }}</p>
-				{% endfor %}
+				<div id = "messages">
+					<p>{{ messages }}</p>
+					{% for message in messages %}
+					<p>{{ message }}</p>
+					{% endfor %}
+				</div>
 		
 				<div class="mt-4">
 					<div class="d-flex justify-content-center links">
@@ -53,4 +55,7 @@
 			</div>
 		</div>
 	</div>
+{% endblock %}
+{% block script %}<script src="{% static 'scripts/login.js' %}" defer></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 {% endblock %}

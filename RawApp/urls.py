@@ -12,4 +12,5 @@ urlpatterns = [
     path('quiz/<int:pk>/save/', views.save_quiz, name ="save_quiz"),
     path('results/', views.results, name= "results"),
     path('results/<int:pk>/', views.result, name= "result"),
+    # path('message', views.get_message, name="get_message")
 ]

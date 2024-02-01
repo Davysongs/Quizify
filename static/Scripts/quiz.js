@@ -4,7 +4,8 @@ const quizform = document.getElementById("quiz-form")
 const csrf = document.getElementsByName("csrfmiddlewaretoken")
 const quizBox = document.getElementById('quiz-box')
 const timerBox = document.getElementById('timer-box')
-const confirm = document.getElementById('confirmed')
+const load = document.getElementById('loader')
+load.style.display = "none"
 let quizID;
 
 
@@ -85,6 +86,7 @@ $.ajax({
 quizform.addEventListener('submit', function (event) {
         // Prevent the form from submitting the traditional way
         event.preventDefault();
+        load.style.display = "initial"
         sendData()
 });  
 
@@ -108,10 +110,11 @@ function sendData(){
            type: 'POST',
            url: `${url}/save/?content=${quizID}`,
            data: data,
-           success: function(response){                      
+           success: function(response){
+
                 setTimeout(function () {
                     window.location.href =(`/results/?quizref=${quizID}`)
-                }, 2000);     
+                }, 5000);     
            },
            error: function(error){
             console.log(error)                     

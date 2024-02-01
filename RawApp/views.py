@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
 from rest_framework.response import Response
 from django.contrib import messages
+from django.contrib.messages import get_messages
 from RawApp.forms import SignForm #LogForm
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
@@ -39,7 +40,7 @@ def register(request):
             if form.is_valid():
                 form.save()
                 user = form.cleaned_data.get("username")
-                messages.success(request, user + "your account was created successfully")
+                messages.add_message(request,messages.SUCCESS, user + " your account was created successfully")
                 return redirect('login')
             return render(request, "sign-up.html", context)
         elif request.method == "GET":
@@ -61,9 +62,17 @@ def signin(request):
                 login(request,user)
                 return redirect("home")
             else:
-                messages.info(request,"Username or password is incorrect")
-        context = {}
-        return render(request, "login.html", context) 
+                messages.info(request,"Username or password is incorrect") 
+        return render(request, "login.html") 
+
+# def get_message(request):
+#     if request.method == "GET" and request.is_ajax():
+#         # Retrieve messages from the storage
+#         storage = get_messages(request)
+#         # Convert messages to a list of dictionaries
+#         messages_list = [{'message': message.message, 'extra_tags': message.tags} for message in storage]        # Return messages as JSON response
+#         print(messages_list)
+#         return JsonResponse({'messages': messages_list})
 
 
 
