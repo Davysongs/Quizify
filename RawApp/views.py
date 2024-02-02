@@ -2,18 +2,19 @@ from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
 from rest_framework.response import Response
 from django.contrib import messages
 from django.contrib.messages import get_messages
-from RawApp.forms import SignForm #LogForm
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.views.generic import ListView
-from .models import Quiz
 from django.utils.decorators import method_decorator
+from django.utils import timezone
 from django.http import JsonResponse, Http404
 from Questions.models import Question, Answer
 from Results.models import Result
-import datetime 
+from RawApp.forms import SignForm
+from RawApp.models import Quiz
+
 import random
 
 
@@ -41,6 +42,12 @@ def register(request):
                 form.save()
                 user = form.cleaned_data.get("username")
                 messages.add_message(request,messages.SUCCESS, user + " your account was created successfully")
+                stored_messages = messages.get_messages(request)
+
+    # Convert messages to a list of dictionaries
+                messages_list = [{'message': message.message, 'extra_tags': message.tags} for message in stored_messages]
+                stored_messages.used = False
+                request.session['data_to_pass'] = messages_list
                 return redirect('login')
             return render(request, "sign-up.html", context)
         elif request.method == "GET":
@@ -57,29 +64,25 @@ def signin(request):
             username = request.POST.get("username")
             password = request.POST.get("password")
             user = authenticate(request, username= username, password= password)
-
             if user is not None:
                 login(request,user)
                 return redirect("home")
             else:
-                messages.info(request,"Username or password is incorrect") 
-        return render(request, "login.html") 
+                messages.info(request,"Username or password is incorrect")
 
-# def get_message(request):
-#     if request.method == "GET" and request.is_ajax():
-#         # Retrieve messages from the storage
-#         storage = get_messages(request)
-#         # Convert messages to a list of dictionaries
-#         messages_list = [{'message': message.message, 'extra_tags': message.tags} for message in storage]        # Return messages as JSON response
-#         print(messages_list)
-#         return JsonResponse({'messages': messages_list})
+        #send confirmation data to login page
+        if request.method == "GET" and request.is_ajax():
+            # Return JSON response for AJAX requests
+            received_data = request.session.get('data_to_pass')
+            return JsonResponse({'messages': received_data})
+        return render(request, "login.html")
 
 
 
 #Logout
 def userlogout(request):
     logout(request)
-    return redirect('login')
+    return redirect('home')
 
 #homepage/dashboard
 @method_decorator(login_required, name= "dispatch")
@@ -102,16 +105,17 @@ def quiz_data(request, pk):
             for a in data.get_answers():
                 answers.append(a.text)
             questions.append({str(data):answers})
-        # Get the current date and time
-        current_datetime = datetime.datetime.now()
-        # Convert the current date and time to an integer
-        timestamp_integer = int(current_datetime.timestamp())
-        # Function to generate random letters
-        def generate_random_letters(length):
-            letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-            return ''.join(random.choice(letters) for _ in range(length))
+        # Get the current date and time as quiz id
+        current_datetime = timezone.now()
+        format = current_datetime.strftime('%m%d%H%M%S')
+        # to generate random letters
+        letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+        return ''.join(random.choice(letters) for _ in range(2))
         # Append two random letters to the integer
-        quizID = str(timestamp_integer)+ str(pk) + generate_random_letters(2)
+        quizID = str(timestamp_integer)+ str(pk) + random_letters(2)
+
+ 
+        quizID = unique
         return JsonResponse({
             'data':questions,
             'time':quiz.time,
@@ -165,7 +169,7 @@ def save_quiz(request, pk):
             verdict = "Failed"
         Result.objects.create(quiz= quiz, user = user, score = total, result_id = quizID, question_ans = picked, answer_status = correct_status, status = verdict)
     else:
-        return redirect("/home/")
+        return redirect("home")
     return JsonResponse({
         'message':"Done"
     })    
