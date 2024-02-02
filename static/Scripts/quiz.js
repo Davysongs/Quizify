@@ -111,10 +111,9 @@ function sendData(){
            url: `${url}/save/?content=${quizID}`,
            data: data,
            success: function(response){
-
                 setTimeout(function () {
                     window.location.href =(`/results/?quizref=${quizID}`)
-                }, 5000);     
+                }, 2000);     
            },
            error: function(error){
             console.log(error)                     

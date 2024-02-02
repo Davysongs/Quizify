@@ -110,12 +110,9 @@ def quiz_data(request, pk):
         format = current_datetime.strftime('%m%d%H%M%S')
         # to generate random letters
         letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-        return ''.join(random.choice(letters) for _ in range(2))
+        unique = ''.join(random.choice(letters) for _ in range(2))
         # Append two random letters to the integer
-        quizID = str(timestamp_integer)+ str(pk) + random_letters(2)
-
- 
-        quizID = unique
+        quizID = str(unique)+ format
         return JsonResponse({
             'data':questions,
             'time':quiz.time,
