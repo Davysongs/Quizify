@@ -3,21 +3,20 @@
 */
 //Query All input fields
 var form_fields = document.getElementsByTagName('input')
-form_fields[1].placeholder='Username..';
-form_fields[2].placeholder='Email..';
-form_fields[3].placeholder='Enter password...';
-form_fields[4].placeholder='Re-enter Password...';
+const username = form_fields[1]
+const email = form_fields[2]
+const password1 = form_fields[3]
+const password2 =form_fields [4]
+username.placeholder='Username..';
+email.placeholder='Email..';
+password1.placeholder='Enter password...';
+password2.placeholder='Re-enter Password...';
 
 
 for (var field in form_fields){	
     form_fields[field].className += ' form-control'
 }
-
-
-
-
 // const form = document.querySelector(".form");
-
 
 // const namePattern = /^[a-zA-Z ]{3,}$/;
 // const passwordPattern = /^[a-zA-Z0-9]{8,}$/;
@@ -25,11 +24,7 @@ for (var field in form_fields){
 
 // let errorTest = [];
 // let error;
-// let userExist;
-
-
 // let pattern;
-
 
 // function liveFeedBack(e) {
 
@@ -65,4 +60,4 @@ for (var field in form_fields){
 // form.addEventListener('click', (e)=>{
 //     errorTest.push(e.target);
 // });
-// // form.addEventListener('submit', submitUserData);
+// form.addEventListener('submit', submitUserData);
