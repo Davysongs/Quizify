@@ -196,6 +196,8 @@ def quiz_result(request, pk):
        message = "You made an INVALID request"
        custom_404(request, message)
 
+       
+
 @login_required(login_url='login')
 def get_results(request, pk):
     if request.method == "GET" and request.is_ajax():

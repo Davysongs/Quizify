@@ -12,6 +12,5 @@ urlpatterns = [
     path('quiz/<int:pk>/save/', views.save_quiz, name ="save_quiz"),
     path('results/', views.results, name= "results"),
     path('result/<str:pk>', views.quiz_result, name= "results"),
-    path('getresults/<str:pk>', views.get_results, name= "get_results"),
-        
+    path('getresults/<str:pk>', views.get_results, name= "get_results"),       
 ]
