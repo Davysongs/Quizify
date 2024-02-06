@@ -111,44 +111,46 @@ def quiz_data(request, pk):
             'time':quiz.time,
             'qid': quizID
         })
-    else:
-        return redirect("/home/")
+
 
 @login_required(login_url= 'login')
 def save_quiz(request, pk):
     if request.is_ajax() and request.method == "POST":
-        quizID = request.GET.get("content")
-        questions = []
-        data = dict(request.POST.lists())
-        data.pop("csrfmiddlewaretoken")
-        for key in data.keys():
-            question = Question.objects.get(text = key)
-            questions.append(question)
-        user = request.user
-        quiz = Quiz.objects.get(pk=pk)
+        try:
+            Result.objects.get(result_id =pk)
+        except:
+            quizID = request.GET.get("content")
+            questions = []
+            data = dict(request.POST.lists())
+            data.pop("csrfmiddlewaretoken")
+            for key in data.keys():
+                question = Question.objects.get(text = key)
+                questions.append(question)
+            user = request.user
+            quiz = Quiz.objects.get(pk=pk)
 
-        score = 0
-        picked = [ ]
-        correct_status = [ ]
+            score = 0
+            picked = [ ]
+            correct_status = [ ]
 
-        for q in questions:
-            selected = request.POST.get(str(q))
-            if selected  != "":
-                sanswer = Answer.objects.filter(question = q)
-                for ans in sanswer:
-                    if selected == ans.text:
-                        if ans.correct:
-                            score +=1
-                            correct = "True"
-                    else:
-                        if ans.correct:
-                            #ANS.TEXT IS THE CORRECT ANSWER
-                            correct = "False"
-                correct_status.append(correct)
-                picked.append({str(q):selected})
-            else:
-                picked.append({str(q):"Not Answered"})
-                correct_status.append("False")
+            for q in questions:
+                selected = request.POST.get(str(q))
+                if selected  != "":
+                    sanswer = Answer.objects.filter(question = q)
+                    for ans in sanswer:
+                        if selected == ans.text:
+                            if ans.correct:
+                                score +=1
+                                correct = "True"
+                        else:
+                            if ans.correct:
+                                #ANS.TEXT IS THE CORRECT ANSWER
+                                correct = "False"
+                    correct_status.append(correct)
+                    picked.append({str(q):selected})
+                else:
+                    picked.append({str(q):"Not Answered"})
+                    correct_status.append("False")
 
         #calculate the user's score in percentage
         total = ((score/quiz.quiz_length) * 100).__round__(2)

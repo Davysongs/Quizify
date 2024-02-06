@@ -44,7 +44,6 @@ const Activatetimer = (time) =>{
             timerBox.innerHTML = "<b>00:00</b>"
             setTimeout(()=>{
                 clearInterval(timer)
-                alert("Get out")
                 sendData()
             }, 500)
         }
