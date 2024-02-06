@@ -20,7 +20,7 @@ const Activatetimer = (time) =>{
     let seconds = 60 
     let displaySeconds
     let displayMinutes    
-    const timer = setInterval(() => {
+    timerInterval = setInterval(() => {
         seconds --
         if (seconds< 0){
             seconds = 59
@@ -47,9 +47,13 @@ const Activatetimer = (time) =>{
                 sendData()
             }, 500)
         }
-        timerBox.innerHTML = `<b>${displayMinutes}:${displaySeconds}</b>`
     }, 1000);
 }
+
+// Function to clear the timer interval
+const clearTimerInterval = () => {
+    clearInterval(timerInterval);
+};
 
 $.ajax({
     type: 'GET',
@@ -86,6 +90,7 @@ quizform.addEventListener('submit', function (event) {
         // Prevent the form from submitting the traditional way
         event.preventDefault();
         load.style.display = "initial"
+        clearTimerInterval()
         sendData()
 });  
 
