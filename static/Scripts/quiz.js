@@ -112,7 +112,7 @@ function sendData(){
            data: data,
            success: function(response){
                 setTimeout(function () {
-                    window.location.href =(`/results/?quizref=${quizID}`)
+                    window.location.href =(`/results/${quizID}`)
                 }, 2000);     
            },
            error: function(error){

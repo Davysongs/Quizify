@@ -2,29 +2,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-    RESULTS 
-    <table width="100%" style="text-align: left;">
-        <tr>
-            <th>User</th> 
-            <th>Quiz</th> 
-            <th>Score</th>
-            <th>Result ID</th>
-            <th>Quiz Date</th> 
-        </tr>
-        {% for item in resobj %}
-        <tr>
-            <td>{{ item.user}}</td>
-            <td>{{item.quiz}}</td>
-            <td>{{ item.score}}</td>
-            <td>{{ item.result_id }}</td>
-            <td>{{ item.date}}</td>
-        </tr>
-        {% endfor %}
-    </table>
+    <p>RESULTS</p>
+    <div id ="table"></div>    
+
 </body>
+{% block script %}<script src="{% static 'scripts/result.js' %}" defer></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>{% endblock %}
 </html>

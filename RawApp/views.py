@@ -14,17 +14,10 @@ from Questions.models import Question, Answer
 from Results.models import Result
 from RawApp.forms import SignForm
 from RawApp.models import Quiz
-
+from RawApp.middlewares import CustomException
 import random
 
-
-# Create your views here.
-
-#error handler
-def custom_404(request, exception):
-    return render(request, '404.html', {'error_message': exception})
-
-
+# Create your views here
 #Home page 
 def main(request):
     return render(request, "index.html")
@@ -107,12 +100,12 @@ def quiz_data(request, pk):
             questions.append({str(data):answers})
         # Get the current date and time as quiz id
         current_datetime = timezone.now()
-        format = current_datetime.strftime('%m%d%H%M%S')
+        datestring = current_datetime.strftime('%m%d%H%M%S')
         # to generate random letters
         letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
         unique = ''.join(random.choice(letters) for _ in range(2))
         # Append two random letters to the integer
-        quizID = str(unique)+ format
+        quizID = str(unique)+ datestring
         return JsonResponse({
             'data':questions,
             'time':quiz.time,
@@ -140,7 +133,6 @@ def save_quiz(request, pk):
 
         for q in questions:
             selected = request.POST.get(str(q))
-
             if selected  != "":
                 sanswer = Answer.objects.filter(question = q)
                 for ans in sanswer:
@@ -159,12 +151,13 @@ def save_quiz(request, pk):
                 correct_status.append("False")
 
         #calculate the user's score in percentage
-        total = (score/quiz.quiz_length) * 100
+        total = ((score/quiz.quiz_length) * 100).__round__(2)
         if  total >= quiz.pass_mark:
             verdict = "Passed"
         else:
             verdict = "Failed"
-        Result.objects.create(quiz= quiz, user = user, score = total, result_id = quizID, question_ans = picked, answer_status = correct_status, status = verdict)
+        Result.objects.create(quiz= quiz, user = user, score = total, result_id = quizID, 
+                              question_ans = picked, answer_status = correct_status, status = verdict)
     else:
         return redirect("home")
     return JsonResponse({
@@ -175,42 +168,67 @@ def save_quiz(request, pk):
 @login_required(login_url= 'login')
 def results(request):
     if request.method == "GET":
-        detail = request.GET.get('quizref')
-        username = request.user.username
-        userdata = User.objects.get(username = username)
-        #to see only one specific result in detail after quiz has ended
-        if detail != None and detail !="":
-            try:
-                redetail = Result.objects.get(result_id = detail)
-                if redetail.user == userdata or userdata.is_staff:
-                    #return html document that renders the persons result and performance 
-                    return render (request, "result_detail.html",{"result":redetail})
-                else:
-                    message = "You are not permitted to view  other results, contact the admin for any complaints"
-                    custom_404(request, message)
-            except Result.DoesNotExist:
-                # requested result does not exist
-                message = "The result you requested to view does not exist"
-                custom_404(request, message)
-    #to see all previous user results in a specific quiz
-        else:
-            userobj = Result.objects.filter(user = userdata.id)
-            return render(request, "result.html", {"resobj" : userobj})
-    else:
-        message = "You made an INVALID request"
-        custom_404(request, message)
+        if request.is_ajax():
+            #to see all previous user results in a specific user
+            username = request.user.username
+            userdata = User.objects.get(username = username)
+            userobj = Result.objects.filter(user = userdata)
+            result = []
+            for i in userobj:
+                res_data = Result.objects.get(result_id = i)
+                score = res_data.score
+                quiz =str(res_data.quiz)
+                resID = res_data.result_id
+                date = res_data.date.strftime('%Y-%m-%d %H:%M')
+                status = res_data.status
+                reslist = {"score":score,
+                           "quiz":quiz, 
+                           "resid":resID,
+                           "date":date,
+                           "status":status
+                           }
+                result.append(reslist)           
+            return JsonResponse({"result":result})
+        else:        
+            return render(request, "result.html")
+    else: 
+        raise CustomException("You Made an invalid request")
         
 
 @login_required(login_url= 'login')
-def result(request, pk):
+def quiz_result(request, pk):
     if request.method == "GET":
         username = request.user.username
-        user = User.objects.get(username=username)
-        uniresult = Result.objects.filter(quiz = pk , user = user )
-        return render(request, "result.html",{"resobj":uniresult})
+        res_data = Result.objects.get(result_id = pk)
+        if username == str(res_data.user):
+            if request.is_ajax():
+                result = []
+                score = res_data.score
+                quiz = str(res_data.quiz)
+                resID = res_data.result_id
+                date = res_data.date.strftime('%Y-%m-%d %H:%M')
+                status = res_data.status
+                quest_ans = res_data.question_ans
+                ans = res_data.answer_status
+                reslist = {"score":score,
+                        "quiz":quiz, 
+                        "resid":resID,
+                        "date":date,
+                        "status":status,
+                        "pair":quest_ans,
+                        "ans":ans
+                        }
+                result.append(reslist)
+                return JsonResponse({
+                    "result":result
+                })
+            else:
+                return render(request, "result_detail.html",{"result":res_data})
+        else:
+           raise CustomException("You are not permitted to view this result, contact the admin for any complaints")
     else:
-       message = "You made an INVALID request"
-       custom_404(request, message)
+        raise CustomException("You Made an invalid request")
+      
 
 
 
