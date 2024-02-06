@@ -4,8 +4,8 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 class Result(models.Model):
-    quiz = models.ForeignKey(Quiz, on_delete= models.CASCADE)
-    user = models.ForeignKey(User,on_delete= models.CASCADE)
+    quiz = models.ForeignKey(Quiz, on_delete= models.SET_DEFAULT, default ="")
+    user = models.ForeignKey(User,on_delete= models.SET_DEFAULT, default="")
     score = models.FloatField()
     result_id = models.CharField(max_length=15, primary_key = True)
     date = models.DateTimeField(auto_now_add = True)

@@ -14,16 +14,10 @@ from Questions.models import Question, Answer
 from Results.models import Result
 from RawApp.forms import SignForm
 from RawApp.models import Quiz
+from RawApp.middlewares import CustomException
 import random
 
-
-# Create your views here.
-
-#error handler
-def custom_404(request, exception):
-    return render(request, '404.html', {'error_message': exception})
-
-
+# Create your views here
 #Home page 
 def main(request):
     return render(request, "index.html")
@@ -197,35 +191,44 @@ def results(request):
             return JsonResponse({"result":result})
         else:        
             return render(request, "result.html")
-    else:
-        message = "You made an INVALID request"
-        custom_404(request, message)
+    else: 
+        raise CustomException("You Made an invalid request")
         
 
 @login_required(login_url= 'login')
 def quiz_result(request, pk):
     if request.method == "GET":
-        if request.is_ajax():
-            try:
-                redetail = Result.objects.get(result_id = pk)
+        username = request.user.username
+        res_data = Result.objects.get(result_id = pk)
+        if username == str(res_data.user):
+            if request.is_ajax():
+                result = []
+                score = res_data.score
+                quiz = str(res_data.quiz)
+                resID = res_data.result_id
+                date = res_data.date.strftime('%Y-%m-%d %H:%M')
+                status = res_data.status
+                quest_ans = res_data.question_ans
+                ans = res_data.answer_status
+                reslist = {"score":score,
+                        "quiz":quiz, 
+                        "resid":resID,
+                        "date":date,
+                        "status":status,
+                        "pair":quest_ans,
+                        "ans":ans
+                        }
+                result.append(reslist)
                 return JsonResponse({
-                    "result":redetail
+                    "result":result
                 })
-            except Result.DoesNotExist:
-                # requested result does not exist
-                message = "The result you requested to view does not exist"
-                custom_404(request, message)
-            username = request.user.username
+            else:
+                return render(request, "result_detail.html",{"result":res_data})
         else:
-            try:
-                userdata = User.objects.get(username = username)
-                return render(request, "result.html")
-            except :
-                message = "You are not permitted to view  other results, contact the admin for any complaints"
-                custom_404(request, message)
+           raise CustomException("You are not permitted to view this result, contact the admin for any complaints")
     else:
-       message = "You made an INVALID request"
-       custom_404(request, message)
+        raise CustomException("You Made an invalid request")
+      
 
 
 
