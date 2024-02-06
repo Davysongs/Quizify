@@ -1,4 +1,3 @@
-const detail = document.getElementById("detail")
 const tableData = document.getElementById("table")
 
 //check if the response is none and display a message for that
@@ -6,7 +5,7 @@ const tableData = document.getElementById("table")
 
 $.ajax({
     type:'GET',
-    url:`getresults/`,
+    url:`/results/`,
     success: function(ele){
         console.log(ele.result)
         tableData.innerHTML += `
@@ -34,6 +33,6 @@ $.ajax({
     }    
 })
 
-detail.addEventListener('click', function (event) {
-    window.location.href =(`/results/?quizref=${resultID}`)
-})
+// detail.addEventListener('click', function (event) {
+//     window.location.href =(`/results/{resultID}`)
+// })

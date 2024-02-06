@@ -12,7 +12,7 @@ class Result(models.Model):
     question_ans = models.CharField(max_length = 1000)
     answer_status = models.CharField(max_length = 1000)
     status = models.CharField(max_length = 6)
-    
+
 
     def __str__(self):
         return str(self.pk)

@@ -14,7 +14,6 @@ from Questions.models import Question, Answer
 from Results.models import Result
 from RawApp.forms import SignForm
 from RawApp.models import Quiz
-
 import random
 
 
@@ -140,7 +139,6 @@ def save_quiz(request, pk):
 
         for q in questions:
             selected = request.POST.get(str(q))
-
             if selected  != "":
                 sanswer = Answer.objects.filter(question = q)
                 for ans in sanswer:
@@ -176,7 +174,29 @@ def save_quiz(request, pk):
 @login_required(login_url= 'login')
 def results(request):
     if request.method == "GET":
-        return render(request, "result.html")
+        if request.is_ajax():
+            #to see all previous user results in a specific user
+            username = request.user.username
+            userdata = User.objects.get(username = username)
+            userobj = Result.objects.filter(user = userdata)
+            result = []
+            for i in userobj:
+                res_data = Result.objects.get(result_id = i)
+                score = res_data.score
+                quiz =str(res_data.quiz)
+                resID = res_data.result_id
+                date = res_data.date.strftime('%Y-%m-%d %H:%M')
+                status = res_data.status
+                reslist = [{"score":score},
+                           {"quiz":quiz}, 
+                           {"resid":resID},
+                           {"date":date},
+                           {"status":status}
+                           ]
+                result.append(reslist)           
+            return JsonResponse({"result":result})
+        else:        
+            return render(request, "result.html")
     else:
         message = "You made an INVALID request"
         custom_404(request, message)
@@ -185,22 +205,7 @@ def results(request):
 @login_required(login_url= 'login')
 def quiz_result(request, pk):
     if request.method == "GET":
-        username = request.user.username
-        try:
-            userdata = User.objects.get(username = username)
-            return render(request, "result.html")
-        except :
-            message = "You are not permitted to view  other results, contact the admin for any complaints"
-            custom_404(request, message)
-    else:
-       message = "You made an INVALID request"
-       custom_404(request, message)
-
-       
-
-@login_required(login_url='login')
-def get_results(request, pk):
-    if request.method == "GET" and request.is_ajax():
+        if request.is_ajax():
             try:
                 redetail = Result.objects.get(result_id = pk)
                 return JsonResponse({
@@ -210,13 +215,17 @@ def get_results(request, pk):
                 # requested result does not exist
                 message = "The result you requested to view does not exist"
                 custom_404(request, message)
+            username = request.user.username
+        else:
+            try:
+                userdata = User.objects.get(username = username)
+                return render(request, "result.html")
+            except :
+                message = "You are not permitted to view  other results, contact the admin for any complaints"
+                custom_404(request, message)
+    else:
+       message = "You made an INVALID request"
+       custom_404(request, message)
 
-@login_required(login_url='login')
-def get_results(request):
-    #to see all previous user results in a specific user
-    username = request.user.username
-    userdata = User.objects.get(username = username)
-    userobj = Result.objects.filter(user = userdata.id)
-    return JsonResponse({
-        "result":userobj
-    })
+
+
