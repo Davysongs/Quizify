@@ -157,7 +157,7 @@ def save_quiz(request, pk):
                 correct_status.append("False")
 
         #calculate the user's score in percentage
-        total = (score/quiz.quiz_length) * 100
+        total = ((score/quiz.quiz_length) * 100).__round__(2)
         if  total >= quiz.pass_mark:
             verdict = "Passed"
         else:
@@ -187,12 +187,12 @@ def results(request):
                 resID = res_data.result_id
                 date = res_data.date.strftime('%Y-%m-%d %H:%M')
                 status = res_data.status
-                reslist = [{"score":score},
-                           {"quiz":quiz}, 
-                           {"resid":resID},
-                           {"date":date},
-                           {"status":status}
-                           ]
+                reslist = {"score":score,
+                           "quiz":quiz, 
+                           "resid":resID,
+                           "date":date,
+                           "status":status
+                           }
                 result.append(reslist)           
             return JsonResponse({"result":result})
         else:        
