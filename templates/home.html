@@ -45,8 +45,9 @@
           data-difficulty = "{{obj.difficulty}}"
           data-time = "{{obj.time}}"
           data-pass = "{{obj.pass_mark}}"
+          data-topic = "{{obj.topic}}"
           data-toggle="modal" data-target="#quizModal">
-          {{obj.name}}
+          {{obj.name}} - {{obj.topic}}
     </button><br>
       {% endfor %}
     </div>

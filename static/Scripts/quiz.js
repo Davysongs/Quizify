@@ -5,9 +5,12 @@ const csrf = document.getElementsByName("csrfmiddlewaretoken")
 const quizBox = document.getElementById('quiz-box')
 const timerBox = document.getElementById('timer-box')
 const load = document.getElementById('loader')
-load.style.display = "none"
 let quizID;
-
+let timer;
+//loading animation
+setTimeout(() => {
+    load.style.display= "none"
+}, 1000);
 
 //Quiz Countdown Timer
 const Activatetimer = (time) =>{
@@ -20,7 +23,7 @@ const Activatetimer = (time) =>{
     let seconds = 60 
     let displaySeconds
     let displayMinutes    
-    timerInterval = setInterval(() => {
+    timer = setInterval(() => {
         seconds --
         if (seconds< 0){
             seconds = 59
@@ -44,15 +47,17 @@ const Activatetimer = (time) =>{
             timerBox.innerHTML = "<b>00:00</b>"
             setTimeout(()=>{
                 clearInterval(timer)
+                load.style.display = "initial"
                 sendData()
             }, 500)
         }
+        timerBox.innerHTML = `<b>${displayMinutes}:${displaySeconds}</b>`
     }, 1000);
 }
 
 // Function to clear the timer interval
 const clearTimerInterval = () => {
-    clearInterval(timerInterval);
+    clearInterval(timer);
 };
 
 $.ajax({
@@ -116,6 +121,8 @@ function sendData(){
            data: data,
            success: function(response){
                 setTimeout(function () {
+                    load.style.display = "none"
+                    quizform.style.opacity = "0%"
                     window.location.href =(`/results/${quizID}`)
                 }, 2000);     
            },
@@ -124,4 +131,6 @@ function sendData(){
            }
        })
 }
+
+
 

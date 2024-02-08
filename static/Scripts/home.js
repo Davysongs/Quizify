@@ -8,6 +8,7 @@ modalBtns.forEach(modalBtn=> modalBtn.addEventListener('click',()=>{
     const difficulty =modalBtn.getAttribute('data-difficulty')
     const passMark = modalBtn.getAttribute('data-pass')
     const time = modalBtn.getAttribute('data-time')
+    const topic = modalBtn.getAttribute('data-time')
 
     modalBody.innerHTML=`
     <div class= "H5 mb-3">Are you ready to begin "<b>${name}</b>" quiz?</div>
@@ -15,8 +16,8 @@ modalBtns.forEach(modalBtn=> modalBtn.addEventListener('click',()=>{
         <ul>
             <li>Number of questions: ${numQuestions}</li>
             <li>Difficulty: ${difficulty}</li>
-            <li>Required Score: ${passMark}</li>
-            <li>Time: ${time}</li>
+            <li>Required Score: ${passMark}%</li>
+            <li>Time: ${time}minutes</li>
         </ul>
     </div>
     `
