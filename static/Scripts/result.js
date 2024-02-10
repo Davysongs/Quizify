@@ -4,13 +4,9 @@ const tableData = document.getElementById("table");
 tableData.addEventListener('click', function(event) {
     if (event.target.classList.contains('res')) {
         // Get the result ID from the button's ID attribute
-        const resid = event.target.id;
-        
-        // Construct the dynamic URL using the result ID
-        const url = `/results/${resid}`;  // Replace 'results/' with your actual URL path
-        
-        // Redirect the user to the dynamic URL
-        window.location.href = url;
+        const resid = event.target.id
+        const url = `/results/${resid}`
+        window.location.href = url
     }
 });
 
