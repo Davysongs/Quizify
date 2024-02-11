@@ -7,6 +7,7 @@ $.ajax({
     url: page,
     success: function (ele) {
         var results = ele.result;
+        console.log(results)
         let pair;
         for (let i = 0; i < results.length; i++) {
             const score = results[i].score;

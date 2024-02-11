@@ -16,6 +16,7 @@ from RawApp.forms import SignForm
 from RawApp.models import Quiz
 from RawApp.middlewares import CustomException
 import random
+import ast
 
 # Create your views here
 #Home page 
@@ -211,7 +212,7 @@ def quiz_result(request, pk):
                 date = res_data.date.strftime('%Y-%m-%d %H:%M')
                 status = res_data.status
                 quest_ans = res_data.question_ans
-                
+                result_list = ast.literal_eval(quest_ans)
                 ans = res_data.answer_status
                 reslist = {"score":score,
                         "quiz":quiz, 
