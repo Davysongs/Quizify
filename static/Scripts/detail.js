@@ -45,10 +45,10 @@ function displayData(pair, ans) {
         // Create a cell for the object
         const objectCell = document.createElement('td');
         if (ans[index] == "True") {
-            objectCell.innerHTML = '<i class="fas fa-check-circle text-success"></i>'; // Font Awesome green check icon
+            objectCell.innerHTML = '<i class="fa fa-check-circle" style="color:green"></i>'; 
         } else {
             // Display red checkbox if condition is not met
-            objectCell.innerHTML = '<i class="fas fa-times-circle text-danger"></i>'; // Font Awesome red cross icon
+            objectCell.innerHTML = '<i class="fa fa-check-circle" style="color:red"></i>'; 
         }
         row.appendChild(objectCell);
 

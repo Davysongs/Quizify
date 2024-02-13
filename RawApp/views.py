@@ -213,8 +213,6 @@ def quiz_result(request, pk):
                 status = res_data.status
                 result_list = ast.literal_eval(res_data.question_ans)
                 ans = ast.literal_eval(res_data.answer_status )
-                sans = res_data.answer_status
-                print(sans)
                 reslist = {"score":score,
                         "quiz":quiz, 
                         "resid":resID,
