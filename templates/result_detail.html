@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="{% static 'img/logo.png' %}">
     <link rel="stylesheet" href="{% static 'css/detail.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <title>{{result.quiz}}Result</title>
 </head>
 <body>
@@ -14,6 +15,17 @@
     <h2>{{result.user}} you got {{ result.score}}% </h2>
     <div id = "result-data"></div>
     <div id = "data"></div>
+    <table id="data-table">
+        <thead>
+            <tr>
+                <th>Question</th>
+                <th>Answer</th>
+            </tr>
+        </thead>
+        <tbody id="data-body">
+            <!-- Data will be dynamically added here -->
+        </tbody>
+    </table>
 
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

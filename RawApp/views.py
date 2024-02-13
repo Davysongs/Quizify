@@ -211,15 +211,16 @@ def quiz_result(request, pk):
                 resID = res_data.result_id
                 date = res_data.date.strftime('%Y-%m-%d %H:%M')
                 status = res_data.status
-                quest_ans = res_data.question_ans
-                result_list = ast.literal_eval(quest_ans)
-                ans = res_data.answer_status
+                result_list = ast.literal_eval(res_data.question_ans)
+                ans = ast.literal_eval(res_data.answer_status )
+                sans = res_data.answer_status
+                print(sans)
                 reslist = {"score":score,
                         "quiz":quiz, 
                         "resid":resID,
                         "date":date,
                         "status":status,
-                        "pair":quest_ans,
+                        "pair": result_list,
                         "ans":ans
                         }
                 result.append(reslist)
