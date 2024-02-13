@@ -2,60 +2,70 @@
 {% load static%}
 {% block title %}Quizify - Register{% endblock %}
 {% block style %}
-<link rel="stylesheet" href="{% static 'css/signup.css' %}">{% endblock %}
-{% block script %}<script src="{% static 'scripts/signup.js' %}" defer></script>{% endblock %}
+<link rel="stylesheet" href="{% static 'css/signup.css' %}">
+{% endblock %}
+{% block script %}
+<script src="{% static 'scripts/signup.js' %}" defer></script>
+{% endblock %}
 
 {% block content %}
 <a href="{% url 'main' %}"><i class="fas fa-home"></i></a>
-	<div class="container h-100">
-		<div class="d-flex justify-content-center h-100">
-			<div class="user_card">
-				<div class="d-flex justify-content-center">
-					<h3 id="form-title">REGISTER </h3>
-				</div>
-				<div class="d-flex justify-content-center form_container">
+<div class="container h-100">
+    <div class="d-flex justify-content-center h-100">
+        <div class="user_card">
+            <div class="d-flex justify-content-center">
+                <h3 id="form-title">REGISTER </h3>
+            </div>
+            <div class="d-flex justify-content-center form_container">
 
-					<form method="POST" action="">
-						{% csrf_token %}
-						<div class="input-group mb-3">
-							<div class="input-group-append">
-								<span class="input-group-text"><i class="fas fa-user"></i></span>
-							</div>
-							{{ form.username }}
-						</div>
-						<div class="input-group mb-2">
-							<div class="input-group-append">
-								<span class="input-group-text"><i class="fas fa-envelope-square"></i></span>
-							</div>
-							{{ form.email }}
-						</div>
-						<div class="input-group mb-2">
-							<div class="input-group-append">
-								<span class="input-group-text"><i class="fas fa-key"></i></span>
-							</div>
-							{{ form.password2}}
-						</div>
-						<div class="input-group mb-2">
-							<div class="input-group-append">
-								<span class="input-group-text"><i class="fas fa-key"></i></span>
-							</div>
-							{{ form.password1 }}
-						</div>
+                <form id="register-form" method="POST" action="">
+                    {% csrf_token %}
+                    <div class="input-group mb-3">
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        </div>
+                        <input type="text" name="username" class="form-control" placeholder="Username">
+                    </div>
+                    <div class="input-group mb-2">
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="fas fa-envelope-square"></i></span>
+                        </div>
+                        <input type="email" name="email" class="form-control" placeholder="Email">
+                    </div>
+                    <div class="input-group mb-2">
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="fas fa-key"></i></span>
+                        </div>
+                        <input type="password" name="password2" class="form-control" placeholder="Confirm Password">
+                    </div>
+                    <div class="input-group mb-2">
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="fas fa-key"></i></span>
+                        </div>
+                        <input type="password" name="password1" class="form-control" placeholder="Password">
+                    </div>
+                    <div id="password-strength" class="text-danger mb-3"></div>
 
-						<div class="d-flex justify-content-center mt-3 login_container">
-							<input class="btn login_btn" type="submit" value="Register Account">
-						</div>
-					</form>
-				</div>
-				{{ form.errors }}
-				<div class="mt-4">
-					<div class="d-flex justify-content-center links">
-						Already have an account? <a href="{% url 'login' %}" class="ml-2">Login</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+                    <div class="d-flex justify-content-center mt-3 login_container">
+                        <button class="btn login_btn" type="submit">Register Account</button>
+                    </div>
+                </form>
+            </div>
+			{% if form.errors %}
+   			<div class="alert alert-danger">
+        	<strong>Error:</strong> {{ form.errors }}
+    		</div>
+			{% endif %}
+            <div class="mt-4">
+                <div class="d-flex justify-content-center links">
+                    Already have an account? <a href="{% url 'login' %}" class="ml-2">Login</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+</script>
 
 {% endblock %}
-

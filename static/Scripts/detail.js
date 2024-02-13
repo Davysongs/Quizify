@@ -48,7 +48,7 @@ function displayData(pair, ans) {
             objectCell.innerHTML = '<i class="fa fa-check-circle" style="color:green"></i>'; 
         } else {
             // Display red checkbox if condition is not met
-            objectCell.innerHTML = '<i class="fa fa-check-circle" style="color:red"></i>'; 
+            objectCell.innerHTML = '<i class="fa fa-times-circle" style="color:red"></i>'; 
         }
         row.appendChild(objectCell);
 

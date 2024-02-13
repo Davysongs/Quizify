@@ -16,48 +16,44 @@ password2.placeholder='Re-enter Password...';
 for (var field in form_fields){	
     form_fields[field].className += ' form-control'
 }
-// const form = document.querySelector(".form");
+const form = document.getElementById('register-form');
+const passwordInput = form.querySelector('input[name="password1"]');
+const confirmPasswordInput = form.querySelector('input[name="password2"]');
+const emailInput = form.querySelector('input[name="email"]');
+const passwordStrength = document.getElementById('password-strength');
 
-// const namePattern = /^[a-zA-Z ]{3,}$/;
-// const passwordPattern = /^[a-zA-Z0-9]{8,}$/;
-// const emailPattern = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
+form.addEventListener('submit', function (event) {
+    let password = passwordInput.value;
+    let confirmPassword = confirmPasswordInput.value;
+    let email = emailInput.value;
+    let errors = [];
 
-// let errorTest = [];
-// let error;
-// let pattern;
+    // Check if passwords match
+    if (password !== confirmPassword) {
+        errors.push("Passwords do not match");
+    }
 
-// function liveFeedBack(e) {
+    // Check password strength
+    if (password.length < 8) {
+        errors.push("Password must be at least 8 characters long");
+    }
 
-//     function displayBorder() {
-//         let small = e.target.parentNode.querySelector('.form__group-small');
-//         small.textContent = pattern.test(e.target.value) ? "Valid" : "Invalid";
-       
-//         if(pattern.test(e.target.value)){
-//             e.target.classList.add("success");
-//             e.target.classList.remove("error");
-//         }else{
-//             e.target.classList.add("error");
-//             e.target.classList.remove("success");
-//         }
-//     }
+    // Check if email is valid
+    let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        errors.push("Invalid email format");
+    }
 
-//     if (e.target.name === 'username') {
-//         pattern = /^[a-zA-Z ]{3,}$/;
-//         displayBorder();
-//     }else if (e.target.name === 'email') {
-//         pattern = /^[a-zA-Z0-9._%+-]{3,}$/;
-//         displayBorder();
-//     }else if (e.target.name === 'password1') {
-//         pattern = /^[a-zA-Z0-9]{8,}$/;
-//         displayBorder();
-//     }else if (e.target.name === 'password2') {
-//         pattern = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
-//         displayBorder();
-//     }
-// }
+    // Display error messages
+    if (errors.length > 0) {
+        event.preventDefault(); // Prevent form submission
+        passwordStrength.innerHTML = errors.join("<br>");
+    }
+});
 
-// form.addEventListener('keyup', liveFeedBack);
-// form.addEventListener('click', (e)=>{
-//     errorTest.push(e.target);
-// });
-// form.addEventListener('submit', submitUserData);
+// Clear error messages when user interacts with the form
+[passwordInput, confirmPasswordInput, emailInput].forEach(input => {
+    input.addEventListener('input', function () {
+        passwordStrength.innerHTML = '';
+    });
+});
