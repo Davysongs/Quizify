@@ -12,7 +12,7 @@
 </head>
 <body>
     <h1>Result for {{result.quiz}}</h1>
-    <h2>{{result.user}} you got {{ result.score}}% </h2>
+    <h2>{{result.user}} you {{ result.status}}  the quiz </h2>
     <div id = "result-data"></div>
     <div id = "data"></div>
     <table id="data-table">
@@ -26,6 +26,7 @@
             <!-- Data will be dynamically added here -->
         </tbody>
     </table>
+    <div><b>Your score: </b>{{ result.score}}%</div>
 
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

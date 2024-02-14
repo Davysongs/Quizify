@@ -199,24 +199,12 @@ body{
         opacity: 1;
         }
     }
-html {
-    background: #fff
-    }
 
 input, button, submit {
     border: none
     }
 
-.cont {
-    position: absolute;
-    width: 610px;
-    height: 10px;
-    left: 50%;
-    top: 50%;
-    margin: -100px 0 0 -300px
-    }
-
-button {
+#confirmed{
     border-width: 1px;
     width: 20vw;
     height: 6vh;
@@ -224,10 +212,10 @@ button {
     border-radius: 100px;
     background: #fff;
     position: absolute;
-    border: 5px solid #6fb07f
+    border: 5px solid #6fb07f;
     }
 
-button > span {
+#confirmed > span {
     font-size: 48px;
     color: #6fb07f
     }
@@ -244,7 +232,7 @@ img {
     opacity: 0
     }
 
-button:focus {
+#confirmed:focus {
     /*animation*/
     -webkit-animation: extend 1s ease-in-out;
     -ms-animation: extend 1s ease-in-out;
@@ -254,7 +242,7 @@ button:focus {
     animation-fill-mode: forwards
     }
 
-button:focus > span {
+#confirmed:focus > span {
     /*animation*/
     -webkit-animation: disappear 1s ease-in-out;
     -ms-animation: disappear 1s ease-in-out;
@@ -264,7 +252,7 @@ button:focus > span {
     animation-fill-mode: forwards
     }
 
-button:focus > img {
+#confirmed:focus > img {
     /*animation*/
     -webkit-animation: appear 1s ease-in-out;
     -ms-animation: appear 1s ease-in-out;
