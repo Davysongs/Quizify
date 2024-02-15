@@ -20,8 +20,10 @@ import ast
 
 # Create your views here
 #Home page 
-def main(request):
-    return render(request, "index.html")
+@method_decorator(login_required, name= "dispatch")
+class HomeView(ListView):
+    model = Quiz
+    template_name = "index.html"
 
 #signup
 def register(request):

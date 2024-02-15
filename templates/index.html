@@ -59,7 +59,11 @@
                 <h1>Welcome</h1>
                 <p>Become the best and set a record that will leave a mark on this app.</p>
                 <br>
-                <button>View Categories</button>
+                <button id = "Categories">View Categories</button>
+                {% for obj in object_list %}
+                    {{obj.name}} - {{obj.topic}}
+                    <br>
+                {% endfor %}
             </div>
 
             <div class="sub-one">

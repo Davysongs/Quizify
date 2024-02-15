@@ -61,11 +61,10 @@ h1 {
     margin: 0;
 }
 
-.logout a {
+.logout {
     color: #fff;
     text-decoration: none;
-    border-radius: 40px;
-    background-color: red;
+    color: rgb(0, 0, 0);
 }
 
 .logout a:hover {
