@@ -4,7 +4,6 @@
 //Query All input fields
 var form_fields = document.getElementsByTagName('input')
 const success = document.getElementById("success")
-const reg = document.getElementById("regform")
 success.style.display= "none"
 
 const username = form_fields[1]

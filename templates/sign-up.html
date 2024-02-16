@@ -10,15 +10,18 @@
 
 {% block content %}
 <a href="{% url 'main' %}"><i class="fas fa-home"></i></a>
-<div id = "success" class="success-checkmark">
-    <div class="check-icon">
-        <span class="icon-line line-tip"></span>
-        <span class="icon-line line-long"></span>
-        <div class="icon-circle"></div>
-        <div class="icon-fix"></div>
+<div id = "success" class="center-div">
+    <div class="success-checkmark">
+        <div class="check-icon">
+            <span class="icon-line line-tip"></span>
+            <span class="icon-line line-long"></span>
+            <div class="icon-circle"></div>
+            <div class="icon-fix"></div>
+        </div>
     </div>
 </div>
-<div id="reg" class="container h-100">
+
+<div id="regform" class="container h-100">
     <div class="d-flex justify-content-center h-100">
         <div class="user_card">
             <div class="d-flex justify-content-center">
@@ -76,24 +79,25 @@
 {% if condition %}
 <script>
     // Your JavaScript function
-    reg.style.display= "none"
+    const reg = document.getElementById("regform")
     function check() {
-        setTimeout(function() {
-                success.style.display = "initial"
-                $(".check-icon").hide();
-                setTimeout(function () {
-                  $(".check-icon").show();
-                }, 20);
-            }, 5000);
-            window.location.href = "/login"
+        success.style.display = "initial"
+        $(".check-icon").hide();
+        setTimeout(function () {
+        $(".check-icon").show();
+        }, 20);
     }
     // Call the function when the page loads
     document.addEventListener('DOMContentLoaded', function() {
+        reg.style.display= "none"
         check();
+        setTimeout(() => {
+        window.location.href = "/login"
+        }, 5000);
     });
 </script>
 <div class="center-div">
-    <b>account was created successfully</b> 
+    <b>Account created successfully</b> 
 </div>
 {% endif %}
 {% endblock %}
