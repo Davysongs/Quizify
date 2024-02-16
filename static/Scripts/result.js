@@ -1,5 +1,6 @@
 const tableData = document.getElementById("table").querySelector("tbody");
 const paginationLinks = document.getElementById("pagination-links");
+const table = document.getElementById("tablesection");
 
 // Function to populate table data
 function populateTable(results) {
@@ -35,7 +36,7 @@ function renderPaginationLinks(currentPage, totalPages) {
     paginationLinks.innerHTML = '';
     for (let i = 1; i <= totalPages; i++) {
         paginationLinks.innerHTML += `
-        <li class="page-item ${i === currentPage ? 'active' : ''}">
+        <li class="page-item ${i === currentPage ? 'active' : ''}>
             <a class="page-link" href="?page=${i}">${i}</a>
         </li>`;
     }
@@ -50,8 +51,15 @@ function fetchData(page) {
             const results = response.result;
             const currentPage = response.page;
             const totalPages = response.total_pages;
-            populateTable(results);
-            renderPaginationLinks(currentPage, totalPages);
+            if (results == ""){
+                table.innerHTML = `
+                <div>
+                <b> No Results Found!</b>
+                </div>   `          
+            }else{
+                populateTable(results);
+                renderPaginationLinks(currentPage, totalPages);
+            }
         },
         error: function(error) {
             console.log('Error:', error);
