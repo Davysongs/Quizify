@@ -174,31 +174,34 @@ def save_quiz(request, pk):
 def results(request):
     if request.method == "GET":
         if request.is_ajax():
+            # Get the user's results
             page_num = request.GET.get('page')
-            #to see all previous user results in a specific user
             username = request.user.username
             userdata = User.objects.get(username = username)
             userobj = Result.objects.filter(user = userdata)
-            paginator = Paginator(userobj, 2)
+            # Paginate the results
+            paginator = Paginator(userobj, 5)
             try:
                 page = paginator.page(page_num)
             except PageNotAnInteger:
                 # If page is not an integer, deliver first page.
                 page = paginator.page(1)
             except EmptyPage:
-                # If page is out of range , deliver last page of results.
+                # If page is out of range, deliver last page of results.
                 page = paginator.page(paginator.num_pages)
+
             # Serialize the results for JSON response
-            results = []
-            for res_data in page:
-                result = {
-                    "score": res_data.score,
-                    "quiz": str(res_data.quiz),
-                    "resid": res_data.result_id,
-                    "date": res_data.date.strftime('%Y-%m-%d %H:%M'),
-                    "status": res_data.status
+
+            result = []
+            for i in page:
+                res_data = Result.objects.get(result_id = i)
+                reslist = {
+                    "score":res_data.score,
+                    "quiz":str(res_data.quiz), 
+                    "date":res_data.date.strftime('%Y-%m-%d %H:%M'),
+                    "status":res_data.status
                 }
-                results.append(result)  
+                result.append(reslist)           
             return JsonResponse({"result":result, "total_pages": paginator.num_pages})
         else:        
             return render(request, "result.html")
