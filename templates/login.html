@@ -5,9 +5,7 @@
 <link rel="stylesheet" href="{% static 'css/login.css' %}"> 
 {% endblock %}
 {% block content %}
-
-
-<a href="{% url 'main' %}"><i class="fas fa-home"></i></a>
+<div id ="home"><a href="{% url 'main' %}"><i class="fas fa-home"></i></a></div>
 	<div class="container h-100">
 		<div class="d-flex justify-content-center h-100">
 			<div class="user_card">
@@ -37,12 +35,16 @@
 				   			</div>
 					</form>
 				</div>	
-				<div id="error-message" class="text-danger"></div>	
-				{% if form.errors %}
-				<div class="alert alert-danger">
-					<strong>Error:</strong> {{ form.errors }}
-				</div>
+				{% if messages %}
+					<div id="error-message" class="text-danger">
+						<ul>
+							{% for message in messages %}
+								<li>{{ message }}</li>
+							{% endfor %}
+						</ul>
+					</div>
 				{% endif %}
+	
 				<div class="mt-4">
 					<div class="d-flex justify-content-center links">
 						Don't have an account? <a href="{% url 'register' %}" class="ml-2">Sign Up</a>

@@ -10,7 +10,15 @@
 
 {% block content %}
 <a href="{% url 'main' %}"><i class="fas fa-home"></i></a>
-<div class="container h-100">
+<div id = "success" class="success-checkmark">
+    <div class="check-icon">
+        <span class="icon-line line-tip"></span>
+        <span class="icon-line line-long"></span>
+        <div class="icon-circle"></div>
+        <div class="icon-fix"></div>
+    </div>
+</div>
+<div id="reg" class="container h-100">
     <div class="d-flex justify-content-center h-100">
         <div class="user_card">
             <div class="d-flex justify-content-center">
@@ -18,31 +26,31 @@
             </div>
             <div class="d-flex justify-content-center form_container">
 
-                <form id="register-form" method="POST" action="">
+                <form id="register-form" method="POST" action="" autocomplete="off">
                     {% csrf_token %}
                     <div class="input-group mb-3">
                         <div class="input-group-append">
                             <span class="input-group-text"><i class="fas fa-user"></i></span>
                         </div>
-                        <input type="text" name="username" class="form-control" placeholder="Username">
+                        <input type="text" name="username" autocomplete="username" class="form-control" placeholder="Username">
                     </div>
                     <div class="input-group mb-2">
                         <div class="input-group-append">
                             <span class="input-group-text"><i class="fas fa-envelope-square"></i></span>
                         </div>
-                        <input type="email" name="email" class="form-control" placeholder="Email">
+                        <input type="email" name="email" autocomplete="email" class="form-control" placeholder="Email">
                     </div>
                     <div class="input-group mb-2">
                         <div class="input-group-append">
                             <span class="input-group-text"><i class="fas fa-key"></i></span>
                         </div>
-                        <input type="password" name="password2" class="form-control" placeholder="Confirm Password">
+                        <input type="password" name="password2" autocomplete="current-password" class="form-control" placeholder="Confirm Password">
                     </div>
                     <div class="input-group mb-2">
                         <div class="input-group-append">
                             <span class="input-group-text"><i class="fas fa-key"></i></span>
                         </div>
-                        <input type="password" name="password1" class="form-control" placeholder="Password">
+                        <input type="password" name="password1" class="form-control" autocomplete="current-password" placeholder="Password">
                     </div>
                     <div id="password-strength" class="text-danger mb-3"></div>
 
@@ -65,7 +73,27 @@
     </div>
 </div>
 
+{% if condition %}
 <script>
+    // Your JavaScript function
+    reg.style.display= "none"
+    function check() {
+        setTimeout(function() {
+                success.style.display = "initial"
+                $(".check-icon").hide();
+                setTimeout(function () {
+                  $(".check-icon").show();
+                }, 20);
+            }, 5000);
+            window.location.href = "/login"
+    }
+    // Call the function when the page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        check();
+    });
 </script>
-
+<div class="center-div">
+    <b>account was created successfully</b> 
+</div>
+{% endif %}
 {% endblock %}

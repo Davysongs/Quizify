@@ -36,14 +36,9 @@ def register(request):
             if form.is_valid():
                 form.save()
                 user = form.cleaned_data.get("username")
-                messages.add_message(request,messages.SUCCESS, user + " your account was created successfully")
-                stored_messages = messages.get_messages(request)
-
-    # Convert messages to a list of dictionaries
-                messages_list = [{'message': message.message, 'extra_tags': message.tags} for message in stored_messages]
-                stored_messages.used = False
-                request.session['data_to_pass'] = messages_list
-                return redirect('login')
+                # Set a flag to indicate successful registration
+                condition = True
+                return render(request, "sign-up.html", {'condition': condition})
             return render(request, "sign-up.html", context)
         elif request.method == "GET":
             context = {"form" : form}
@@ -64,12 +59,7 @@ def signin(request):
                 return redirect("home")
             else:
                 messages.info(request,"Username or password is incorrect")
-
-        #send confirmation data to login page
-        if request.method == "GET" and request.is_ajax():
-            # Return JSON response for AJAX requests
-            received_data = request.session.get('data_to_pass')
-            return JsonResponse({'messages': received_data})
+                return render(request, "login.html")
         return render(request, "login.html")
 
 
