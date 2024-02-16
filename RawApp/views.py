@@ -3,9 +3,9 @@ from rest_framework.response import Response
 from django.contrib import messages
 from django.contrib.messages import get_messages
 from django.contrib.auth.decorators import login_required
-from django.urls import reverse_lazy
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic import ListView
 from django.utils.decorators import method_decorator
 from django.utils import timezone
@@ -174,26 +174,32 @@ def save_quiz(request, pk):
 def results(request):
     if request.method == "GET":
         if request.is_ajax():
+            page_num = request.GET.get('page')
             #to see all previous user results in a specific user
             username = request.user.username
             userdata = User.objects.get(username = username)
             userobj = Result.objects.filter(user = userdata)
-            result = []
-            for i in userobj:
-                res_data = Result.objects.get(result_id = i)
-                score = res_data.score
-                quiz =str(res_data.quiz)
-                resID = res_data.result_id
-                date = res_data.date.strftime('%Y-%m-%d %H:%M')
-                status = res_data.status
-                reslist = {"score":score,
-                           "quiz":quiz, 
-                           "resid":resID,
-                           "date":date,
-                           "status":status
-                           }
-                result.append(reslist)           
-            return JsonResponse({"result":result})
+            paginator = Paginator(userobj, 2)
+            try:
+                page = paginator.page(page_num)
+            except PageNotAnInteger:
+                # If page is not an integer, deliver first page.
+                page = paginator.page(1)
+            except EmptyPage:
+                # If page is out of range , deliver last page of results.
+                page = paginator.page(paginator.num_pages)
+            # Serialize the results for JSON response
+            results = []
+            for res_data in page:
+                result = {
+                    "score": res_data.score,
+                    "quiz": str(res_data.quiz),
+                    "resid": res_data.result_id,
+                    "date": res_data.date.strftime('%Y-%m-%d %H:%M'),
+                    "status": res_data.status
+                }
+                results.append(result)  
+            return JsonResponse({"result":result, "total_pages": paginator.num_pages})
         else:        
             return render(request, "result.html")
     else: 
