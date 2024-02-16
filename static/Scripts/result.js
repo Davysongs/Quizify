@@ -21,6 +21,14 @@ function populateTable(results) {
         </tr>`;
     }}
 }
+// Event delegation to handle click events on buttons
+tableData.addEventListener('click', function(event) {
+    if (event.target.classList.contains('res')) {
+        // Get the result ID from the button's ID attribute
+        const resid = event.target.id
+        window.location.href = `/results/${resid}`
+    }
+});
 
 // Function to render pagination links
 function renderPaginationLinks(currentPage, totalPages) {
@@ -40,7 +48,6 @@ function fetchData(page) {
         url: `/results/?page=${page}`,
         success: function(response) {
             const results = response.result;
-            console.log(results)
             const currentPage = response.page;
             const totalPages = response.total_pages;
             populateTable(results);

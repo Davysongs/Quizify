@@ -198,6 +198,7 @@ def results(request):
                 reslist = {
                     "score":res_data.score,
                     "quiz":str(res_data.quiz), 
+                    "resid":res_data.result_id,
                     "date":res_data.date.strftime('%Y-%m-%d %H:%M'),
                     "status":res_data.status
                 }
