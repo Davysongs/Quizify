@@ -20,7 +20,6 @@ import ast
 
 # Create your views here
 #Home page 
-@method_decorator(login_required, name= "dispatch")
 class HomeView(ListView):
     model = Quiz
     template_name = "index.html"
