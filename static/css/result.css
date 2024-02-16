@@ -1,0 +1,82 @@
+/* Reset default browser styles */
+body, h1, table {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+.back-to-home {
+    position: fixed;
+    top: 20px;
+    left: 10px;
+    margin-left:0px;
+}
+
+.home-button {
+    display: flex;
+    padding: 10px 20px;
+    background-color: #007bff; /* Blue background color */
+    color: #fff; /* White text color */
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.home-button:hover {
+    background-color: #0056b3; /* Darker blue background color on hover */
+}
+
+
+/* Table styles */
+#table {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+#table th, #table td {
+    padding: 10px;
+    text-align: center;
+}
+
+#table th {
+    background-color: #f8f9fa; /* Light gray background */
+}
+
+#table tbody tr:nth-child(even) {
+    background-color: #f2f2f2; /* Alternate row background */
+}
+
+/* Pagination styles */
+.pagination {
+    margin-top: 20px;
+}
+
+.pagination li {
+    display: inline-block;
+    margin: 0 5px;
+}
+
+.pagination li a {
+    display: block;
+    padding: 5px 10px;
+    text-decoration: none;
+    border: 1px solid #007bff; /* Blue border */
+    color: #007bff; /* Blue text color */
+}
+
+.pagination li.active a {
+    background-color: #007bff; /* Active page background color */
+    color: #fff; /* Active page text color */
+}
+
+.pagination li a:hover {
+    background-color: #f8f9fa; /* Hover background color */
+}
