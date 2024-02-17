@@ -36,7 +36,7 @@ function renderPaginationLinks(currentPage, totalPages) {
     paginationLinks.innerHTML = '';
     for (let i = 1; i <= totalPages; i++) {
         paginationLinks.innerHTML += `
-        <li class="page-item ${i === currentPage ? 'active' : ''}>
+        <li class="page-item ${i === currentPage ? 'active' : ''}">
             <a class="page-link" href="?page=${i}">${i}</a>
         </li>`;
     }
