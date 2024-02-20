@@ -31,7 +31,8 @@ h1 {
 }
 
 .home-button:hover {
-    background-color: #0056b3; /* Darker blue background color on hover */
+    box-shadow: 20px;
+    background-color: #878787; Darker blue background color on hover
 }
 
 

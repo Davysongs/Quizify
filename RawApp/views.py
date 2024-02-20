@@ -169,7 +169,7 @@ def results(request):
             userdata = User.objects.get(username = username)
             userobj = Result.objects.filter(user = userdata)
             # Paginate the results
-            paginator = Paginator(userobj, 10)
+            paginator = Paginator(userobj, 8)
             try:
                 page = paginator.page(page_num)
             except PageNotAnInteger:
