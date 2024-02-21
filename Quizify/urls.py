@@ -21,3 +21,5 @@ urlpatterns = [
     path('', include('RawApp.urls')),
 
 ]
+handler404 = 'RawApp.views.custom_404'
+handler500 = 'RawApp.views.custom_500'

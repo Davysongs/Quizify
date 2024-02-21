@@ -232,7 +232,11 @@ def quiz_result(request, pk):
            raise CustomException("You are not permitted to view this result, contact the admin for any complaints")
     else:
         raise CustomException("You Made an invalid request")
-      
+   
+#Error Views
+def custom_404(request, exception):
+    return render(request, 'error/404.html', status=404)
 
-
+def custom_500(request):
+    return render(request, 'error/500.html', status=500)
 

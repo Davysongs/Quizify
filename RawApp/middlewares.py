@@ -25,7 +25,7 @@ class CustomErrorHandlerMiddleware:
         # Check if the exception meets the condition
         if isinstance(exception, CustomException):
             # Render the custom error template
-            return render(request, '404.html', {'error_message': str(exception)})
+            return render(request, 'error/404.html', {'error_message': str(exception)})
         return None
 
 class CustomException(Exception):
