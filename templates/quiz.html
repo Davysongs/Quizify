@@ -9,8 +9,9 @@
         <div class="top-container">
             <div class="non">
                 <!-- <img src="{% static 'img/bak.png' %}" alt="logo" class="quiz-img"> -->
-            <h1 class="quiz-heading">Quizify: {{ obj.name }}</h1>
-            <p>Get {{obj.pass_mark}}% or higher to pass this quiz </p>
+                <img id="offline-image" src="{% static 'img/offline-icon.svg' %}" alt="Offline Image">
+                <h1 class="quiz-heading">Quizify: {{ obj.name }}</h1>
+                <p>Get {{obj.pass_mark}}% or higher to pass this quiz </p>
             </div>
 
             <div class="user">

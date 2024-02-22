@@ -131,6 +131,27 @@ function sendData(){
            }
        })
 }
+window.addEventListener('load', function() {
+    // Check if the browser is offline when the page loads
+    if (!navigator.onLine) {
+        showOfflineImage();
+    }
+});
 
+window.addEventListener('offline', function() {
+    // When the browser goes offline, show the offline image
+    showOfflineImage();
+});
 
+window.addEventListener('online', function() {
+    // When the browser goes back online, hide the offline image
+    hideOfflineImage();
+});
 
+function showOfflineImage() {
+    document.getElementById('offline-image').style.display = 'inline'; // Show the image
+}
+
+function hideOfflineImage() {
+    document.getElementById('offline-image').style.display = 'none'; // Hide the image
+}
