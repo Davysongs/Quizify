@@ -120,5 +120,16 @@ img {
     height: auto;
     margin-bottom: 20px;
     display: none; /* Initially hide the image */
+    animation: fadeInOut 4s ease-in-out infinite;
 }
-
+@keyframes fadeInOut {
+    0% {
+        opacity: 0; /* Start with fully transparent */
+    }
+    50% {
+        opacity: 1; /* Fade in to fully opaque */
+    }
+    100% {
+        opacity: 0; /* Fade out to fully transparent again */
+    }
+}

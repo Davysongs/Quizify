@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os
 from pathlib import Path
-from django.urls import reverse
+
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,9 +25,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-vy&)fx3&#3w%=@7dya^ifki-d)&$4t#d%pdfpfoj22soar^1-j'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -47,7 +47,6 @@ INSTALLED_APPS = [
     'Results',
     
 ]
-CRISPY_TEMPLATE_PACK = 'bootstrap4'  # Choose the template pack you want to use (e.g., 'bootstrap4')
 
 
 MIDDLEWARE = [
