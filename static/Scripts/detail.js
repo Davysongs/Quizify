@@ -3,28 +3,31 @@ const qdata = document.getElementById("data");
 const tbody = document.getElementById('data-body');
 const page = window.location.href;
 
-$.ajax({
-    type: 'GET',
-    url: page,
-    success: function (ele) {
-        var results = ele.result;
-        let pair;
-        let ans;
-        for (let i = 0; i < results.length; i++) {
-            const score = results[i].score;
-            const quiz = results[i].quiz;
-            const resid = results[i].resid;
-            const status = results[i].status;
-            ans = results[i].ans;
-            pair = results[i].pair    
-        } 
-        displayData(pair, ans)  
-    },
-    error: function (error) {
-        console.log(error);
-    }
-});
-
+if (navigator.onLine) {
+    $.ajax({
+        type: 'GET',
+        url: page,
+        success: function (ele) {
+            var results = ele.result;
+            let pair;
+            let ans;
+            for (let i = 0; i < results.length; i++) {
+                const score = results[i].score;
+                const quiz = results[i].quiz;
+                const resid = results[i].resid;
+                const status = results[i].status;
+                ans = results[i].ans;
+                pair = results[i].pair    
+            } 
+            displayData(pair, ans)  
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+    } else {
+        alert("You are offline. Please connect to the internet.")
+}
 
 // Function to create HTML elements and append them to the document
 function displayData(pair, ans) {

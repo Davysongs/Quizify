@@ -44,27 +44,32 @@ function renderPaginationLinks(currentPage, totalPages) {
 
 // AJAX request to fetch initial page data
 function fetchData(page) {
-    $.ajax({
-        type: 'GET',
-        url: `/results/?page=${page}`,
-        success: function(response) {
-            const results = response.result;
-            const currentPage = response.page;
-            const totalPages = response.total_pages;
-            if (results == ""){
-                table.innerHTML = `
-                <div>
-                <b> No Results Found!</b>
-                </div>   `          
-            }else{
-                populateTable(results);
-                renderPaginationLinks(currentPage, totalPages);
+    if (navigator.onLine) {
+        $.ajax({
+            type: 'GET',
+            url: `/results/?page=${page}`,
+            success: function(response) {
+                const results = response.result;
+                const currentPage = response.page;
+                const totalPages = response.total_pages;
+                if (results == ""){
+                    table.innerHTML = `
+                    <div>
+                    <b> No Results Found!</b>
+                    </div>   `          
+                }else{
+                    populateTable(results);
+                    renderPaginationLinks(currentPage, totalPages);
+                }
+            },
+            error: function(error) {
+                console.log('Error:', error);
             }
-        },
-        error: function(error) {
-            console.log('Error:', error);
+        });
+    } else {
+        // Offline case here...
+        alert("You are currently offline.");
         }
-    });
 }
 
 // Event delegation to handle click events on pagination links
