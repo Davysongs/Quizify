@@ -1,7 +1,6 @@
-from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
+from django.shortcuts import render, redirect, HttpResponse
 from rest_framework.response import Response
 from django.contrib import messages
-from django.contrib.messages import get_messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User

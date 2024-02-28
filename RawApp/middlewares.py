@@ -1,4 +1,3 @@
-from django.http import HttpResponseServerError
 from django.shortcuts import render
 
 class AjaxMiddleware:
