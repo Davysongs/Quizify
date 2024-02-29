@@ -16,14 +16,17 @@ from RawApp.models import Quiz
 from RawApp.middlewares import CustomException
 import random
 import ast
+from login_required import login_not_required
 
 # Create your views here
 #Home page 
+@login_not_required()
 class HomeView(ListView):
     model = Quiz
     template_name = "index.html"
 
 #signup
+@login_not_required()
 def register(request):
     if request.user.is_authenticated:
         return redirect('home')
@@ -45,6 +48,7 @@ def register(request):
 
 
 #login 
+@login_not_required()
 def signin(request):
     if request.user.is_authenticated:
         return redirect('home')
@@ -69,17 +73,14 @@ def userlogout(request):
     return redirect('home')
 
 #homepage/dashboard
-@method_decorator(login_required, name= "dispatch")
 class QuizListView(ListView):
     model = Quiz
     template_name = "home.html"
 
-@login_required(login_url= 'login')
 def quiz_view(request, pk):
     quiz = Quiz.objects.get(pk=pk)
     return render(request, "quiz.html", {'obj':quiz})
 
-@login_required(login_url= 'login')
 def quiz_data(request, pk):
     if request.method == "GET":
         quiz = Quiz.objects.get(pk=pk)
@@ -104,7 +105,6 @@ def quiz_data(request, pk):
         })
 
 
-@login_required(login_url= 'login')
 def save_quiz(request, pk):
     if request.is_ajax() and request.method == "POST":
         try:
@@ -158,7 +158,6 @@ def save_quiz(request, pk):
     })    
 
 #get only the quiz results of the user
-@login_required(login_url= 'login')
 def results(request):
     if request.method == "GET":
         if request.is_ajax():
@@ -198,7 +197,6 @@ def results(request):
         raise CustomException("You Made an invalid request")
         
 
-@login_required(login_url= 'login')
 def quiz_result(request, pk):
     if request.method == "GET":
         username = request.user.username
