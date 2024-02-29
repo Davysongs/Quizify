@@ -62,6 +62,8 @@ MIDDLEWARE = [
     'django.middleware.cache.UpdateCacheMiddleware',
     'RawApp.middlewares.AjaxMiddleware',
     'RawApp.middlewares.CustomErrorHandlerMiddleware',
+    'RawApp.middlewares.AuthenticatedRedirectMiddleware',
+    
 ]
 
 ROOT_URLCONF = 'Quizify.urls'

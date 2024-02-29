@@ -20,52 +20,45 @@ from login_required import login_not_required
 
 # Create your views here
 #Home page 
-@login_not_required()
+@login_not_required
 class HomeView(ListView):
     model = Quiz
     template_name = "index.html"
 
 #signup
-@login_not_required()
+@login_not_required
 def register(request):
-    if request.user.is_authenticated:
-        return redirect('home')
-    else:
-        form = SignForm()
-        if request.method == 'POST':
-            form = SignForm(request.POST)
-            context = {"form" : form}
-            if form.is_valid():
-                form.save()
-                user = form.cleaned_data.get("username")
-                # Set a flag to indicate successful registration
-                condition = True
-                return render(request, "sign-up.html", {'condition': condition})
-            return render(request, "sign-up.html", context)
-        elif request.method == "GET":
-            context = {"form" : form}
-            return render(request, "sign-up.html", context)
+    form = SignForm()
+    if request.method == 'POST':
+        form = SignForm(request.POST)
+        context = {"form" : form}
+        if form.is_valid():
+            form.save()
+            user = form.cleaned_data.get("username")
+            # Set a flag to indicate successful registration
+            condition = True
+            return render(request, "sign-up.html", {'condition': condition})
+        return render(request, "sign-up.html", context)
+    elif request.method == "GET":
+        context = {"form" : form}
+        return render(request, "sign-up.html", context)
 
 
 #login 
-@login_not_required()
+@login_not_required
 def signin(request):
-    if request.user.is_authenticated:
-        return redirect('home')
-    else:
-        if request.method == "POST":
-            username = request.POST.get("username")
-            password = request.POST.get("password")
-            user = authenticate(request, username= username, password= password)
-            if user is not None:
-                login(request,user)
-                return redirect("home")
-            else:
-                messages.info(request,"Username or password is incorrect")
-                return render(request, "login.html")
-        return render(request, "login.html")
-
-
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+        user = authenticate(request, username= username, password= password)
+        if user is not None:
+            login(request,user)
+            next_url = request.GET.get('next', 'home')
+            return redirect(next_url)
+        else:
+            messages.info(request,"Username or password is incorrect")
+            return render(request, "login.html")
+    return render(request, "login.html")
 
 #Logout
 def userlogout(request):

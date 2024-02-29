@@ -1,4 +1,7 @@
 from django.shortcuts import render
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from django.utils.deprecation import MiddlewareMixin
 
 class AjaxMiddleware:
     def __init__(self, get_response):
@@ -11,6 +14,14 @@ class AjaxMiddleware:
         request.is_ajax = is_ajax.__get__(request)
         response = self.get_response(request)
         return response
+    
+
+class AuthenticatedRedirectMiddleware(MiddlewareMixin):
+    def process_request(self, request):
+        if request.user.is_authenticated:
+            # Redirect authenticated users away from login and sign up pages
+            if request.path == reverse('login') or request.path == reverse('register'):
+                return HttpResponseRedirect(reverse('home'))
     
 class CustomErrorHandlerMiddleware:
     def __init__(self, get_response):
