@@ -1,14 +1,12 @@
 from django.shortcuts import render, redirect, HttpResponse
 from rest_framework.response import Response
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic import ListView
-from django.utils.decorators import method_decorator
 from django.utils import timezone
-from django.http import JsonResponse, Http404
+from django.http import JsonResponse
 from Questions.models import Question, Answer
 from Results.models import Result
 from RawApp.forms import SignForm
@@ -101,8 +99,6 @@ def quiz_data(request, pk):
 def save_quiz(request, pk):
     if request.is_ajax() and request.method == "POST":
         try:
-            Result.objects.get(result_id =pk)
-        except:
             quizID = request.GET.get("content")
             questions = []
             data = dict(request.POST.lists())
@@ -135,20 +131,19 @@ def save_quiz(request, pk):
                 else:
                     picked.append({str(q):"Not Answered"})
                     correct_status.append("False")
-
-        #calculate the user's score in percentage
-        total = ((score/quiz.quiz_length) * 100).__round__(2)
-        if  total >= quiz.pass_mark:
-            verdict = "Passed"
-        else:
-            verdict = "Failed"
-        Result.objects.create(quiz= quiz, user = user, score = total, result_id = quizID, 
-                              question_ans = picked, answer_status = correct_status, status = verdict)
+            #calculate the user's score in percentage
+            total = ((score/quiz.quiz_length) * 100).__round__(2)
+            if  total >= quiz.pass_mark:
+                verdict = "Passed"
+            else:
+                verdict = "Failed"
+            Result.objects.create(quiz= quiz, user = user, score = total, result_id = quizID,
+                                question_ans = picked, answer_status = correct_status, status = verdict)
+        except:
+            return JsonResponse({'message':'multiple results found for this request'})
     else:
         return redirect("home")
-    return JsonResponse({
-        'message':"Done"
-    })    
+    return JsonResponse({'message':"Done"})    
 
 #get only the quiz results of the user
 def results(request):
