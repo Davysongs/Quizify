@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, HttpResponse
+from django.shortcuts import render, redirect
 from rest_framework.response import Response
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -32,7 +32,6 @@ def register(request):
         context = {"form" : form}
         if form.is_valid():
             form.save()
-            user = form.cleaned_data.get("username")
             # Set a flag to indicate successful registration
             condition = True
             return render(request, "sign-up.html", {'condition': condition})
