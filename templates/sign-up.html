@@ -29,7 +29,7 @@
             </div>
             <div class="d-flex justify-content-center form_container">
 
-                <form id="register-form" method="POST" action="" autocomplete="off">
+                <form id="register-form" method="POST" autocomplete="off">
                     {% csrf_token %}
                     <div class="input-group mb-3">
                         <div class="input-group-append">
@@ -78,7 +78,6 @@
 
 {% if condition %}
 <script>
-    // Your JavaScript function
     const reg = document.getElementById("regform")
     function check() {
         success.style.display = "initial"

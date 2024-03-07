@@ -39,6 +39,8 @@ def register(request):
     elif request.method == "GET":
         context = {"form" : form}
         return render(request, "sign-up.html", context)
+    else:
+        raise CustomException("You Made an invalid request")
 
 
 #login 
