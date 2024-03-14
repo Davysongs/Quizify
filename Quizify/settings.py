@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     
 ]
 
+ALLOWED_HOSTS = ['.vercel.app']
 
 MIDDLEWARE = [
     'debug_toolbar.middleware.DebugToolbarMiddleware',

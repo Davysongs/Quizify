@@ -125,7 +125,6 @@ def save_quiz(request, pk):
                                 correct = "True"
                         else:
                             if ans.correct:
-                                #ANS.TEXT IS THE CORRECT ANSWER
                                 correct = "False"
                     correct_status.append(correct)
                     picked.append({str(q):selected})
