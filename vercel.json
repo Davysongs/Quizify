@@ -1,7 +1,7 @@
 {
     "builds": [
         {
-            "src": "Base/wsgi.py",
+            "src": "Quizify/wsgi.py",
             "use": "@vercel/python",
             "config": { "maxLambdaSize": "15mb", "runtime": "python3.9" }
         }
@@ -9,7 +9,7 @@
     "routes": [
         {
             "src": "/(.*)",
-            "dest":"Base/wsgi.py"
+            "dest":"Quizify/wsgi.py"
         }
     ]
 }
