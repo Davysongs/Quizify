@@ -10,8 +10,9 @@ django-crispy-forms = "*"
 requests = "*"
 pytest = "*"
 django-debug-toolbar = "*"
-mysqlclient = "*"
 django-login-required-middleware = "*"
+pytz = "*"
+wheel = "*"
 
 [dev-packages]
 

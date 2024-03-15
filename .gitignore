@@ -1,0 +1,4 @@
+.env
+Pipfile.lock
+/static_files/
+/myenv/
