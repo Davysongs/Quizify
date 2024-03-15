@@ -1,4 +1,4 @@
 .env
 Pipfile.lock
-/static_files/
+/staticfiles_build/
 /myenv/
