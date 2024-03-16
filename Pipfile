@@ -13,6 +13,9 @@ django-debug-toolbar = "*"
 django-login-required-middleware = "*"
 pytz = "*"
 wheel = "*"
+python-dotenv = "*"
+python-decouple = "*"
+six = "*"
 
 [dev-packages]
 
