@@ -14,7 +14,7 @@ body {
 }
 
 header {
-    background-color: #3498db;
+    background-color: #2622F5;
     padding: 10px;
     color: #fff;
     text-align: center;
@@ -85,7 +85,7 @@ h1 {
 }
 
 .btn-primary {
-    background-color: #3498db;
+    background-color: #110965dd;
     color: #fff;
 }
 
@@ -94,7 +94,7 @@ h1 {
 }
 
 #footer {
-    background-color: #34495e;
+    background-color: #2622F5;
     color: #fff;
     padding: 10px 0;
     text-align: center;

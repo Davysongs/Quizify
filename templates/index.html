@@ -45,9 +45,8 @@
                
             </header>
             <div class="display-container">
-                <h3>Exercise The Unbeatable</h3>
-                <h1>POWER <br> OF YOUR <br> MIND.</h1>
-
+                <h1>IGNITE <br> YOUR QUIZ <br> SPIRIT.</h1>
+                <h3>Challenge your friends, test your knowledge, and race against the clock as you embark on an epic quiz adventure like never before. From mind-bending riddles to rapid-fire trivia, Quizify has it all!</h3>
                 <a href="{% url 'register' %}" class="btn-link"><button class="start-btn">GET STARTED ⇒</button></a>
             </div>
         </div>
@@ -57,7 +56,7 @@
                 <h1>Welcome</h1>
                 <p>Become the best and set a record that will leave a mark on this app.</p>
                 <br>
-                <button id = "Categories">All Categories</button>
+                <h2 id = "Categories">Categories</h2>
                 {% for obj in object_list %}
                     {{obj.name}} - {{obj.topic}}
                     <br>
@@ -132,14 +131,3 @@
     <script src="{% static 'js/index.js' %}"></script>
 </body>
 </html>
-
-<!-- 
-<div class="program">
-    <h1>
-        Program
-    </h1>
-    
-    <p>We offer more than 20 differnt optons for spending your leisure time!</p>
-    <button>Choose the program</button>
-
-</div> -->

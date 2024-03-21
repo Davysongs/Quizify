@@ -26,6 +26,13 @@ html {
     margin-top: 20px;
 }
 
+#home {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    font-size: 30px; 
+}
+
 #form-title{
     color: #fff;
 }

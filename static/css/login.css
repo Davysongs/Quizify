@@ -3,13 +3,13 @@ html {
     margin: 0;
     padding: 0;
     height: 100%;
-    background:radial-gradient(white ,rgba(0, 0, 255, 0.658) ) !important;
+    background:#fff!important;
 }
 .user_card {
     width: 350px;
     margin-top: auto;
     margin-bottom: auto;
-    background:rgba(0, 0, 255, 0.658);
+    background:rgba(0, 0, 255, 0.265);
     position: relative;
     display: flex;
     justify-content: center;

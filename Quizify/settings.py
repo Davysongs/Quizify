@@ -12,7 +12,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-vy&)fx3&#3w%=@7dya^ifki-d)&$4t#d%pdfpfoj22soar^1-j'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['.vercel.app', '.now.sh', '127.0.0.1', 'localhost']
 
@@ -74,28 +74,28 @@ WSGI_APPLICATION = 'Quizify.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'quizify',
-#         'USER': 'root',
-#         'PASSWORD': '#$(tVA0nr)',
-#         'HOST': '127.0.0.1',
-#         'PORT': '3306',
-#     }
-# }
-
 DATABASES = {
-   'default': {
-       'ENGINE': 'django.db.backends.postgresql',
-       'NAME': 'railway',
-       'USER':'postgres',
-       'PASSWORD': 'JBZCdJGEGkKhMcOyCGQNPmWXjcekZCsM',
-       'HOST':'viaduct.proxy.rlwy.net',
-       'PORT':'37630',
-
-   }
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'quizify',
+        'USER': 'root',
+        'PASSWORD': '#$(tVA0nr)',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
+    }
 }
+
+# DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.postgresql',
+#        'NAME': 'railway',
+#        'USER':'postgres',
+#        'PASSWORD': 'JBZCdJGEGkKhMcOyCGQNPmWXjcekZCsM',
+#        'HOST':'viaduct.proxy.rlwy.net',
+#        'PORT':'37630',
+
+#    }
+# }
 
 
 

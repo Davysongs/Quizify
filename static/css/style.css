@@ -69,7 +69,7 @@ header h1{
     right: -700px;
     height: calc(100vh - 60px);
 
-    background-color: pink;
+    background-color: #A2A2FD;
     color: black;
     padding: 20px;
     font-size: 18px;
@@ -142,7 +142,7 @@ main ul{
     font-size: 17px;
     border: none;
     padding: 4px;
-    background-color: pink;
+    background-color: #A2A2FD;
     color: black;
     transition: all .5s;
     border-radius: 2px;
@@ -154,12 +154,17 @@ main ul{
 }
 
 nav:hover{
-    background-color: pink;
+    background-color: #A2A2FD;
 }
 
 nav:hover .nav-btn{
     background-color: blue;
     color: white;
+}
+
+.nav-btn{
+    height: 34px;
+    width: 60px;
 }
 
 nav:hover .nav-link{
@@ -185,7 +190,7 @@ marquee{
     font-size: 18px;
     border: none;
     padding: 15px 10px;
-    background-color: pink;
+    background-color: #A2A2FD;
     border-radius: 5px;
     transition: all .5s;
     position: relative;
@@ -267,7 +272,7 @@ marquee{
 
 .extra-txt h1{
     margin-bottom: 15px;
-    color: pink;
+    color: #A2A2FD;
 }
 
 .close-details{
@@ -278,7 +283,7 @@ marquee{
 .fa-circle-chevron-up{
     margin-top: 20px;
     /* font-size: 18px; */
-    color: pink;
+    color: #A2A2FD;
 }
 
 .fa-circle-chevron-up:hover{
@@ -371,7 +376,7 @@ marquee{
         font-size: 16px;
         border: none;
         padding: 8px 10px;
-        background-color: pink;
+        background-color: #A2A2FD;
         border-radius: 5px;
         transition: all .5s;
         text-decoration: none;
