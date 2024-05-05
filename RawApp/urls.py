@@ -9,7 +9,8 @@ urlpatterns = [
     path('home/', views.QuizListView.as_view() , name="home"),
     path('quiz/<int:pk>', views.quiz_view, name= "quiz"),
     path('quiz/<int:pk>/data', views.quiz_data, name ="quiz_data"),
-    path('quiz/<int:pk>/save/', views.save_quiz, name ="save_quiz"),
+    # path('quiz/<int:pk>/save/', views.save_quiz, name ="save_quiz"),
+    path('quiz/<int:pk>/save/', views.SaveQuizView.as_view(), name="Save_class"),
     path('results/', views.results, name= "results"),
     path('results/<str:pk>', views.quiz_result, name= "results"),     
 ]
