@@ -220,9 +220,3 @@ html {
     height: 100vh; /* Adjust as needed */
 }
 
-/* Additional styles for the success checkmark */
-.success-checkmark {
-    width: 100px; /* Adjust as needed */
-    height: 100px; /* Adjust as needed */
-    /* Add any other styles for the checkmark container */
-}
