@@ -100,47 +100,72 @@ def quiz_data(request, pk):
 def save_quiz(request, pk):
     if request.is_ajax() and request.method == "POST":
         try:
+            # Validate the quiz ID
             quizID = request.GET.get("content")
+            if not quizID:
+                return JsonResponse({'message': 'Quiz ID is missing'}, status=400)
+
             questions = []
             data = dict(request.POST.lists())
-            data.pop("csrfmiddlewaretoken")
-            for key in data.keys():
-                question = Question.objects.get(text = key)
-                questions.append(question)
-            user = request.user
+            data.pop("csrfmiddlewaretoken", None)  # Safely remove csrf token
+
+            # Fetch quiz object and check for non-existence
             quiz = Quiz.objects.get(pk=pk)
+            user = request.user
+
+            for key in data.keys():
+                question = Question.objects.get(text=key)
+                questions.append(question)
 
             score = 0
-            picked = [ ]
-            correct_status = [ ]
+            picked = []
+            correct_status = []
 
             for q in questions:
-                selected = request.POST.get(str(q))
-                if selected  != "":
-                    sanswer = Answer.objects.filter(question = q)
+                selected = request.POST.get(str(q), "")
+                if selected:
+                    sanswer = Answer.objects.filter(question=q)
+                    correct = "False"
                     for ans in sanswer:
-                        if selected == ans.text:
-                            if ans.correct:
-                                score +=1
-                                correct = "True"
-                        else:
-                            if ans.correct:
-                                correct = "False"
+                        if selected == ans.text and ans.correct:
+                            score += 1
+                            correct = "True"
+                            break
                     correct_status.append(correct)
-                    picked.append({str(q):selected})
+                    picked.append({str(q): selected})
                 else:
-                    picked.append({str(q):"Not Answered"})
+                    picked.append({str(q): "Not Answered"})
                     correct_status.append("False")
-            #calculate the user's score in percentage
-            total = ((score/quiz.quiz_length) * 100).__round__(2)
-            if  total >= quiz.pass_mark:
-                verdict = "Passed"
-            else:
-                verdict = "Failed"
-            Result.objects.create(quiz= quiz, user = user, score = total, result_id = quizID,
-                                question_ans = picked, answer_status = correct_status, status = verdict)
-        except:
-            return JsonResponse({'message':'multiple results found for this request'})
+
+            # Calculate the user's score in percentage
+            total = ((score / quiz.quiz_length) * 100).__round__(2)
+
+            # Determine the verdict
+            verdict = "Passed" if total >= quiz.pass_mark else "Failed"
+
+            # Create the result entry
+            Result.objects.create(
+                quiz=quiz, 
+                user=user, 
+                score=total, 
+                result_id=quizID,
+                question_ans=picked,
+                answer_status=correct_status,
+                status=verdict
+            )
+
+            return JsonResponse({'message': 'Result created successfully'})
+
+        except ObjectDoesNotExist as e:
+            return JsonResponse({'message': f'Object not found: {str(e)}'}, status=404)
+        except MultipleObjectsReturned as e:
+            return JsonResponse({'message': f'Multiple results found: {str(e)}'}, status=409)
+        except IntegrityError as e:
+            return JsonResponse({'message': f'Integrity error: {str(e)}'}, status=400)
+        except DatabaseError as e:
+            return JsonResponse({'message': f'Database error: {str(e)}'}, status=500)
+        except Exception as e:
+            return JsonResponse({'message': f'An unexpected error occurred: {str(e)}'}, status=500)
     else:
         return redirect("home")
     return JsonResponse({'message':"Done"})    
