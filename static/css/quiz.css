@@ -77,16 +77,13 @@ body{
 .logout{
     display: flex;
     justify-content: flex-end;
+    margin-bottom: 5px;
 }
 
 .user{
     position: absolute;
     top: 15px;
     right: 30px;
-}
-
-.logout{
-    margin-bottom: 5px;
 }
 .contain{
     position:absolute;
