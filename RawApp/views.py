@@ -97,179 +97,78 @@ def quiz_data(request, pk):
             'time':quiz.time,
             'qid': quizID
         })
-        
-# This refactored code introduces a class-based view for handling quiz saving logic
-class SaveQuizView(View):
-    def post(self, request, pk):
-        # Ensure the request is Ajax and is a POST request
-        if not request.is_ajax():
-            return redirect("home")
-
+def save_quiz(request, pk):
+    if request.is_ajax() and request.method == "POST":
         try:
-            # Extract and validate necessary information
+            # Validate the quiz ID
             quizID = request.GET.get("content")
             if not quizID:
                 return JsonResponse({'message': 'Quiz ID is missing'}, status=400)
 
-            data = self._extract_post_data(request)
-            questions = self._get_questions(data)
+            questions = []
+            data = dict(request.POST.lists())
+            data.pop("csrfmiddlewaretoken", None)  # Safely remove csrf token
 
-            quiz = self._get_quiz(pk)
+            # Fetch quiz object and check for non-existence
+            quiz = Quiz.objects.get(pk=pk)
             user = request.user
 
-            # Process questions and calculate the score
-            score, picked, correct_status = self._process_questions(request, questions)
+            for key in data.keys():
+                question = Question.objects.get(text=key)
+                questions.append(question)
 
-            # Calculate percentage score and verdict
-            total = self._calculate_score_percentage(quiz, score)
+            score = 0
+            picked = []
+            correct_status = []
+
+            for q in questions:
+                selected = request.POST.get(str(q), "")
+                if selected:
+                    sanswer = Answer.objects.filter(question=q)
+                    correct = "False"
+                    for ans in sanswer:
+                        if selected == ans.text and ans.correct:
+                            score += 1
+                            correct = "True"
+                            break
+                    correct_status.append(correct)
+                    picked.append({str(q): selected})
+                else:
+                    picked.append({str(q): "Not Answered"})
+                    correct_status.append("False")
+
+            # Calculate the user's score in percentage
+            total = ((score / quiz.quiz_length) * 100).__round__(2)
+
+            # Determine the verdict
             verdict = "Passed" if total >= quiz.pass_mark else "Failed"
 
-            # Create the result
-            self._create_result(quiz, user, total, quizID, picked, correct_status, verdict)
+            # Create the result entry
+            Result.objects.create(
+                quiz=quiz, 
+                user=user, 
+                score=total, 
+                result_id=quizID,
+                question_ans=picked,
+                answer_status=correct_status,
+                status=verdict
+            )
 
             return JsonResponse({'message': 'Result created successfully'})
 
-        except (ObjectDoesNotExist, MultipleObjectsReturned) as e:
-            return self._handle_exception(e)
-        except (IntegrityError, DatabaseError) as e:
-            return self._handle_exception(e)
+        except ObjectDoesNotExist as e:
+            return JsonResponse({'message': f'Object not found: {str(e)}'}, status=404)
+        except MultipleObjectsReturned as e:
+            return JsonResponse({'message': f'Multiple results found: {str(e)}'}, status=409)
+        except IntegrityError as e:
+            return JsonResponse({'message': f'Integrity error: {str(e)}'}, status=400)
+        except DatabaseError as e:
+            return JsonResponse({'message': f'Database error: {str(e)}'}, status=500)
         except Exception as e:
             return JsonResponse({'message': f'An unexpected error occurred: {str(e)}'}, status=500)
-
-    def _extract_post_data(self, request):
-        data = dict(request.POST.lists())
-        data.pop("csrfmiddlewaretoken", None)  # Safely remove csrf token
-        return data
-
-    def _get_questions(self, data):
-        questions = []
-        for key in data.keys():
-            question = Question.objects.get(text=key)
-            questions.append(question)
-        return questions
-
-    def _get_quiz(self, pk):
-        return Quiz.objects.get(pk=pk)
-
-    def _process_questions(self, request, questions):
-        score = 0
-        picked = []
-        correct_status = []
-
-        for q in questions:
-            selected = request.POST.get(str(q), "")
-            if selected:
-                correct = "False"
-                sanswer = Answer.objects.filter(question=q)
-                for ans in sanswer:
-                    if selected == ans.text and ans.correct:
-                        score += 1
-                        correct = "True"
-                        break
-                correct_status.append(correct)
-                picked.append({str(q): selected})
-            else:
-                correct_status.append("False")
-                picked.append({str(q): "Not Answered"})
-
-        return score, picked, correct_status
-
-    def _calculate_score_percentage(self, quiz, score):
-        return round((score / quiz.quiz_length) * 100, 2)
-
-    def _create_result(self, quiz, user, total, quizID, picked, correct_status, verdict):
-        Result.objects.create(
-            quiz=quiz,
-            user=user,
-            score=total,
-            result_id=quizID,
-            question_ans=picked,
-            answer_status=correct_status,
-            status=verdict,
-        )
-
-    def _handle_exception(self, exception):
-        if isinstance(exception, ObjectDoesNotExist):
-            return JsonResponse({'message': f'Object not found: {str(exception)}'}, status=404)
-        elif isinstance(exception, MultipleObjectsReturned):
-            return JsonResponse({'message': f'Multiple results found: {str(exception)}'}, status=409)
-        elif isinstance(exception, IntegrityError):
-            return JsonResponse({'message': f'Integrity error: {str(exception)}'}, status=400)
-        elif isinstance(exception, DatabaseError):
-            return JsonResponse({'message': f'Database error: {str(exception)}'}, status=500)
-
-# def save_quiz(request, pk):
-#     if request.is_ajax() and request.method == "POST":
-#         try:
-#             # Validate the quiz ID
-#             quizID = request.GET.get("content")
-#             if not quizID:
-#                 return JsonResponse({'message': 'Quiz ID is missing'}, status=400)
-
-#             questions = []
-#             data = dict(request.POST.lists())
-#             data.pop("csrfmiddlewaretoken", None)  # Safely remove csrf token
-
-#             # Fetch quiz object and check for non-existence
-#             quiz = Quiz.objects.get(pk=pk)
-#             user = request.user
-
-#             for key in data.keys():
-#                 question = Question.objects.get(text=key)
-#                 questions.append(question)
-
-#             score = 0
-#             picked = []
-#             correct_status = []
-
-#             for q in questions:
-#                 selected = request.POST.get(str(q), "")
-#                 if selected:
-#                     sanswer = Answer.objects.filter(question=q)
-#                     correct = "False"
-#                     for ans in sanswer:
-#                         if selected == ans.text and ans.correct:
-#                             score += 1
-#                             correct = "True"
-#                             break
-#                     correct_status.append(correct)
-#                     picked.append({str(q): selected})
-#                 else:
-#                     picked.append({str(q): "Not Answered"})
-#                     correct_status.append("False")
-
-#             # Calculate the user's score in percentage
-#             total = ((score / quiz.quiz_length) * 100).__round__(2)
-
-#             # Determine the verdict
-#             verdict = "Passed" if total >= quiz.pass_mark else "Failed"
-
-#             # Create the result entry
-#             Result.objects.create(
-#                 quiz=quiz, 
-#                 user=user, 
-#                 score=total, 
-#                 result_id=quizID,
-#                 question_ans=picked,
-#                 answer_status=correct_status,
-#                 status=verdict
-#             )
-
-#             return JsonResponse({'message': 'Result created successfully'})
-
-#         except ObjectDoesNotExist as e:
-#             return JsonResponse({'message': f'Object not found: {str(e)}'}, status=404)
-#         except MultipleObjectsReturned as e:
-#             return JsonResponse({'message': f'Multiple results found: {str(e)}'}, status=409)
-#         except IntegrityError as e:
-#             return JsonResponse({'message': f'Integrity error: {str(e)}'}, status=400)
-#         except DatabaseError as e:
-#             return JsonResponse({'message': f'Database error: {str(e)}'}, status=500)
-#         except Exception as e:
-#             return JsonResponse({'message': f'An unexpected error occurred: {str(e)}'}, status=500)
-#     else:
-#         return redirect("home")
-#     return JsonResponse({'message':"Done"})    
+    else:
+        return redirect("home")
+    return JsonResponse({'message':"Done"})    
 
 #get only the quiz results of the user
 def results(request):
