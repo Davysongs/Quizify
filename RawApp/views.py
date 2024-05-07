@@ -74,6 +74,11 @@ class QuizListView(ListView):
 def quiz_view(request, pk):
     quiz = Quiz.objects.get(pk=pk)
     return render(request, "quiz.html", {'obj':quiz})
+'''. todo;
+      -Add logic to check if questions are available in the database
+      -Seperate longer processes into seperate files with error handling
+      -Direct front end to display appropriate message when data is unavailable or there is no successful data retrieval 
+'''
 
 def quiz_data(request, pk):
     if request.method == "GET":
