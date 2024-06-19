@@ -1,5 +1,5 @@
 from django.db import models
-from RawApp.models import Quiz
+from base.models import Quiz
 from django.contrib.auth.models import User
 
 # Create your models here.

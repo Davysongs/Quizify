@@ -1,5 +1,5 @@
 from django.db import models
-from RawApp.models import Quiz
+from base.models import Quiz
 
 # Create your models here.
 class Question(models.Model):

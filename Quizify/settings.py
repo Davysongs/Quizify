@@ -26,11 +26,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'RawApp',
+    'base',
     'rest_framework',
     'crispy_forms',
-    'Questions',
-    'Results',  
+    'questions',
+    'results',  
 ]
 
 
@@ -44,13 +44,13 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.cache.UpdateCacheMiddleware',
-    'RawApp.middlewares.AjaxMiddleware',
-    'RawApp.middlewares.CustomErrorHandlerMiddleware',
-    'RawApp.middlewares.AuthenticatedRedirectMiddleware',
+    'base.middlewares.AjaxMiddleware',
+    'base.middlewares.CustomErrorHandlerMiddleware',
+    'base.middlewares.AuthenticatedRedirectMiddleware',
     
 ]
 
-ROOT_URLCONF = 'Quizify.urls'
+ROOT_URLCONF = 'quizify.urls'
 
 TEMPLATES = [
     {
@@ -68,7 +68,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'Quizify.wsgi.application'
+WSGI_APPLICATION = 'quizify.wsgi.application'
 
 
 # Database

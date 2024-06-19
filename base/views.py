@@ -9,11 +9,11 @@ from django.db import IntegrityError, DatabaseError
 from django.views.generic import ListView
 from django.utils import timezone
 from django.http import JsonResponse
-from Questions.models import Question, Answer
-from Results.models import Result
-from RawApp.forms import SignForm
-from RawApp.models import Quiz
-from RawApp.middlewares import CustomException
+from questions.models import Question, Answer
+from results.models import Result
+from base.forms import SignForm
+from base.models import Quiz
+from base.middlewares import CustomException
 import random
 import ast
 from login_required import login_not_required
